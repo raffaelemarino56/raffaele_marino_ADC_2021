@@ -26,10 +26,27 @@ public class SudokuGameImpl implements SudokuGame{
 	final private ArrayList<String> s_topics=new ArrayList<String>();
 
 
-	public SudokuGameImpl(int _id, String _master, final MessageListenerImpl _peerid) throws Exception {
+	public SudokuGameImpl(int _id, String _master_peer, final MessageListenerImpl _listener) throws Exception {
+		
+		
 		peer= new PeerBuilder(Number160.createHash(_id)).ports(DEFAULT_MASTER_PORT+_id).start();
 		_dht = new PeerBuilderDHT(peer).start();
 
+		FutureBootstrap fb = peer.bootstrap().inetAddress(InetAddress.getByName(_master_peer)).ports(DEFAULT_MASTER_PORT).start();
+		fb.awaitUninterruptibly();
+		if(fb.isSuccess()) {
+			peer.discover().peerAddress(fb.bootstrapTo().iterator().next()).start().awaitUninterruptibly();
+		}else {
+			throw new Exception("Error in master peer bootstrap.");
+		}
+		
+		peer.objectDataReply(new ObjectDataReply() {
+			
+			public Object reply(PeerAddress sender, Object request) throws Exception {
+				return _listener.parseMessage(request);
+			}
+		});
+		
 	}
 
 	//genera nuova partita
@@ -73,6 +90,7 @@ public class SudokuGameImpl implements SudokuGame{
 	}
 
 
+	@SuppressWarnings("unchecked")
 	public boolean leveGame(String _game_name) {
 		try {
 			FutureGet futureGet = _dht.get(Number160.createHash(_game_name)).start();
@@ -93,7 +111,7 @@ public class SudokuGameImpl implements SudokuGame{
 	}
 
 	public boolean leaveNetwork() {
-
+		//deve lasciare tutte le partite nelle quali è in gioco
 		for(String topic: new ArrayList<String>(s_topics)) leveGame(topic);
 		_dht.peer().announceShutdown().start().awaitUninterruptibly();
 		return true;
