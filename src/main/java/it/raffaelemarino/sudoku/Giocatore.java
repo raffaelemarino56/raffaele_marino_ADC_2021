@@ -1,6 +1,7 @@
 package it.raffaelemarino.sudoku;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 
 import net.tomp2p.peers.PeerAddress;
 
@@ -12,7 +13,7 @@ public class Giocatore implements Serializable{
 	private Integer peerID;
 	private Integer punteggio;
 	private Integer[][] giocoGiocatore;
-	
+	private ArrayList<CampoDiGioco> giochi;
 	
 	public Giocatore() {};
 	
@@ -57,4 +58,13 @@ public class Giocatore implements Serializable{
 		this.giocoGiocatore = giocoGiocatore;
 	}
 
+	public boolean addGiocoAGiocatore(CampoDiGioco g) {
+		if(giochi.add(g))
+			return true;
+		return false;
+	}
+	
+	public void removeGiocoDaGiocatore(CampoDiGioco g) {
+		giochi.remove(g);
+	}
 }

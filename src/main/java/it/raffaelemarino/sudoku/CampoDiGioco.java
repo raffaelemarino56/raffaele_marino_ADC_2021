@@ -99,14 +99,28 @@ public class CampoDiGioco implements Serializable{
 		return sudoku;
 	}
 	
-	private Integer[][] generaGiocoIniziale(Integer[][] sudoku) {
+	private Integer[][] generaGiocoIniziale(Integer[][] sudoku) {//DA FARE
 		Integer[][] campo_iniziale = new Integer[9][9];
+		
 		//tolgo alcuni numeri al campo di gioco per poterlo dare ai giocatori
+		//i numeri nel sudoku vanno da 1 a 9, piazzo uno 0 dove devo "nascondere il numero"
 		
 		
 		return campo_iniziale;
 	}
 
+	public int controllaNumeroPiazzato(int i,int j,int valore) {
+		
+		//se è corretto e il valore nel campo di gioco dove giocano i giocatori è 0 allora dai 1 punto
+		if(campo_di_gioco_completo[i][j]==valore && campo_di_gioco_iniziale[i][j]==0)
+			return 1;
+		//se è corretto il valore ma nel campo di gioco dove giocano i giocatori c'era già il valore allora dai 0 punti
+		if(campo_di_gioco_completo[i][j]==valore && campo_di_gioco_iniziale[i][j]==valore)
+			return 0;
+		
+		//-1 altrimenti, vuol dire che non era corretto il valore
+		return -1;
+	}
 	
 	
 	public boolean isPeerInGame(Integer peer) {
@@ -140,6 +154,35 @@ public class CampoDiGioco implements Serializable{
 	public void aggiungiGiocatore(Giocatore g) {
 		this.giocatori.add(g);
 		
+	}
+	
+	public void aggiornaListaGiocatori(Giocatore g) {
+		if(this.giocatori.remove(g))
+			this.giocatori.add(g);
+	}
+	
+	
+	//controllo se tutte le caselle hanno tutti i numeri
+	public boolean isFinish() {
+		
+		for(int i=0;i<9;i++) {
+			for(int j=0;j<9;j++) {
+				if(campo_di_gioco_completo[i][j]!=campo_di_gioco_iniziale[i][j])
+					return false;
+			}
+		}
+		
+		return true;
+	}
+	
+	public String getScoreboard() {
+		
+		String s="";
+		
+		for(Giocatore g: this.giocatori)
+			s=g.getNick()+" ha punteggio: "+g.getPunteggio() +"\n";
+		
+		return s;
 	}
 	
 }

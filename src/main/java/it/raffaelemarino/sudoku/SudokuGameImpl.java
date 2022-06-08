@@ -28,9 +28,9 @@ public class SudokuGameImpl implements SudokuGame{
 
 
 	public SudokuGameImpl(int _id, String _master_peer, final MessageListenerImpl _listener) throws Exception {
-		
+
 		this.id=_id;
-		
+
 		peer= new PeerBuilder(Number160.createHash(_id)).ports(DEFAULT_MASTER_PORT+_id).start();
 		_dht = new PeerBuilderDHT(peer).start();
 
@@ -41,34 +41,34 @@ public class SudokuGameImpl implements SudokuGame{
 		}else {
 			throw new Exception("Error in master peer bootstrap.");
 		}
-		
+
 		peer.objectDataReply(new ObjectDataReply() {
-			
+
 			public Object reply(PeerAddress sender, Object request) throws Exception {
 				return _listener.parseMessage(request);
 			}
 		});
-		
+
 	}
 
-	//genera nuova partita
+	//genera nuova partita dato un nome
 	public Integer[][] generateNewSudoku(String _game_name) {
 		// TODO Auto-generated method stub
 
 		try {
-			
+
 			FutureGet futureGet = _dht.get(Number160.createHash(_game_name)).start().awaitUninterruptibly();
 			//controllo se esiste il gioco con quel nome
 			if (futureGet.isSuccess() && futureGet.isEmpty()) {
-				
+
 				CampoDiGioco gioco = new CampoDiGioco();
 				//per _game_name crea il campo da gioco che do a new Data() ovviamente tutto l'oggetto
 				_dht.put(Number160.createHash(_game_name)).data(new Data(gioco)).start().awaitUninterruptibly();
 				//return della matrice che ho creato
-				
+
 				return gioco.getCampo_di_gioco_iniziale();
 			}
-			
+
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -79,62 +79,66 @@ public class SudokuGameImpl implements SudokuGame{
 	//entra in una partita (avvisa i giocatori in partita che sei entrato nella partita)
 	public boolean join(String _game_name, String _nickname) {
 		// TODO Auto-generated method stub
-		
+
 		try {
 			FutureGet futureGet = _dht.get(Number160.createHash(_game_name)).start().awaitUninterruptibly();
 			//controllo se esiste il gioco con quel nome
 			if (futureGet.isSuccess() && !futureGet.isEmpty()) { 
 				//recupero il gioco, che contiene il campo e i giocatori
 				CampoDiGioco gioco = (CampoDiGioco) futureGet.dataMap().values().iterator().next().object();
-				
-				
+
+
 				//controllo se sono già in gioco o già esiste quel nickcanme
 				if(gioco.isNickInGame(_nickname) || gioco.isPeerInGame(this.id))
 					return false;
+
 				
-				//mi aggiungo alla lista giocatori di quel gioco
-				gioco.aggiungiGiocatore(new Giocatore(_nickname,this.peer.peerAddress(),id,0,gioco.getCampo_di_gioco_iniziale() ) );
+				Giocatore giocatore = new Giocatore(_nickname,this.peer.peerAddress(),id,0,gioco.getCampo_di_gioco_iniziale() );
 				
-				//devo aggiungere questo gioco alla lista dei giochi a cui il giocatore partecipa, può partecipare a più giochi
-				
-				
-				
-				
-				//aggiorno lo stato
-				_dht.put(Number160.createHash(_game_name)).data(new Data(gioco)).start().awaitUninterruptibly();
-				
+				//devo aggiungere questo gioco alla lista dei giochi a cui il giocatore partecipa, perchè può partecipare a più giochi
+				if(giocatore.addGiocoAGiocatore(gioco)) {
+					//mi aggiungo alla lista giocatori di quel gioco
+					gioco.aggiungiGiocatore(giocatore);
+
+					//aggiorno lo stato
+					_dht.put(Number160.createHash(_game_name)).data(new Data(gioco)).start().awaitUninterruptibly();
 					
-				//notifico a tutti i giocatori in quella partita l'accesso del nuovo giocatore
-				for(Giocatore g : gioco.getGiocatori()) {
-					FutureDirect futureDirect = _dht.peer().sendDirect(g.getPeerAddres()).object("giocatore" + _nickname + "è entrato in partita").start().awaitUninterruptibly();
+					//notifico a tutti i giocatori in quella partita l'accesso del nuovo giocatore
+					for(Giocatore g : gioco.getGiocatori()) {
+						FutureDirect futureDirect = _dht.peer().sendDirect(g.getPeerAddres()).object("giocatore" + _nickname + "è entrato in partita").start().awaitUninterruptibly();
+					}
 				}
+				
+				
 			}else {
 				return false;
 			}
 		}catch (Exception e) {
 			// TODO: handle exception
 		}
-		
+
 		return false;
 	}
+	
+	
 
 	//visualizza stato di una partita
 	public Integer[][] getSudoku(String _game_name) {
 		// TODO Auto-generated method stub
 		try {
 			FutureGet futureGet = _dht.get(Number160.createHash(_game_name)).start().awaitUninterruptibly();
-			
+
 			//verifico se esiste
 			if (futureGet.isSuccess() && !futureGet.isEmpty()) { 
 				CampoDiGioco gioco = (CampoDiGioco) futureGet.dataMap().values().iterator().next().object();
-				
-				//recupero il campo di gioco relativo al _game_name del giocatore con id se esiste
+
+				//recupero le info del giocatore con id se esiste
 				Giocatore giocatore = gioco.getGiocatoreByPeer(id);
-				
+
 				if(giocatore != null)
 					return giocatore.getGiocoGiocatore();
-				
-				
+
+
 			}
 		}catch (Exception e) {
 			// TODO: handle exception
@@ -146,13 +150,47 @@ public class SudokuGameImpl implements SudokuGame{
 	//piazza numero in una partita (avvisa giocatori che hai piazzato il numero e il punteggio)
 	public Integer placeNumber(String _game_name, int _i, int _j, int _number) {
 		// TODO Auto-generated method stub
-		
-		
-		
-		
-		
-		
-		
+
+		try {
+			FutureGet futureGet = _dht.get(Number160.createHash(_game_name)).start().awaitUninterruptibly();
+
+			//verifico se esiste
+			if (futureGet.isSuccess() && !futureGet.isEmpty()) { 
+				CampoDiGioco gioco = (CampoDiGioco) futureGet.dataMap().values().iterator().next().object();
+
+
+				//recupero il campo di gioco relativo al _game_name del giocatore con id se esiste
+				Giocatore giocatore = gioco.getGiocatoreByPeer(id);
+				if(giocatore == null)
+					return null;
+
+				//piazza numero e ottieni il punteggio
+				int punto=gioco.controllaNumeroPiazzato(_i, _j, _number);
+
+				//aggiorno puntegigo giocatore
+				giocatore.setPunteggio(giocatore.getPunteggio()+punto);
+
+				//aggiorno lista giocatori nel gioco
+				gioco.aggiornaListaGiocatori(giocatore);
+
+				//aggiorno lo stato
+				_dht.put(Number160.createHash(_game_name)).data(new Data(gioco)).start().awaitUninterruptibly();
+
+
+				//notifico a tutti i giocatori in quella partita che ho piazzato il numero e il mio punteggio
+				for(Giocatore g : gioco.getGiocatori()) {
+					FutureDirect futureDirect = _dht.peer().sendDirect(g.getPeerAddres()).object("giocatore" + giocatore.getNick() + "ha messo il numero" + _number +" in posizione i:"+_i+" j:"+_j+"ed ha punteggio:"+giocatore.getPunteggio()).start().awaitUninterruptibly();
+					
+					//se il gioco è finito lo notifico a tutti e mostro la scoreboard
+					if(gioco.isFinish()) {
+						FutureDirect futureDirect2= _dht.peer().sendDirect(g.getPeerAddres()).object("il gioco è finito!!!, questa è la scoreboard: "+gioco.getScoreboard()).start().awaitUninterruptibly();
+					}
+				}
+			}
+		}catch(Exception e) {
+			// TODO: handle exception
+
+		}
 		return null;
 	}
 
@@ -179,7 +217,8 @@ public class SudokuGameImpl implements SudokuGame{
 
 	public boolean leaveNetwork() {
 		//deve lasciare tutte le partite nelle quali è in gioco
-		for(String topic: new ArrayList<String>(s_topics)) leveGame(topic);
+		for(String topic: new ArrayList<String>(s_topics)) 
+			leveGame(topic);
 		_dht.peer().announceShutdown().start().awaitUninterruptibly();
 		return true;
 	}
