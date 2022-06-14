@@ -2,6 +2,7 @@ package it.raffaelemarino.sudoku;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Random;
 
 import net.tomp2p.peers.PeerAddress;
 
@@ -100,10 +101,21 @@ public class CampoDiGioco implements Serializable{
 	}
 	
 	private Integer[][] generaGiocoIniziale(Integer[][] sudoku) {//DA FARE
-		Integer[][] campo_iniziale = new Integer[9][9];
-		
+		Integer[][] campo_iniziale = this.campo_di_gioco_completo;
 		//tolgo alcuni numeri al campo di gioco per poterlo dare ai giocatori
 		//i numeri nel sudoku vanno da 1 a 9, piazzo uno 0 dove devo "nascondere il numero"
+		Random random = new Random();
+
+		
+		for(int i=0; i<9;i++) {
+			for(int j=0;j<9;j++) {
+				
+				if(random.nextBoolean()) {
+					campo_iniziale[i][j]=0;
+				}
+				
+			}
+		}
 		
 		
 		return campo_iniziale;
@@ -122,8 +134,13 @@ public class CampoDiGioco implements Serializable{
 		return -1;
 	}
 	
+	public void aggiornaCampoDiGioco(int i,int j,int valore) {
+		
+		campo_di_gioco_iniziale[i][j]=valore;
+	}
 	
-	public boolean isPeerInGame(Integer peer) {
+	
+	public boolean isPeerInGame(PeerAddress peer) {
 		
 		for(Giocatore g: this.giocatori){
 			if(g.getPeerAddres().equals(peer))
@@ -142,7 +159,7 @@ public class CampoDiGioco implements Serializable{
 		return false;
 	}
 	
-	public Giocatore getGiocatoreByPeer(Integer peer) {
+	public Giocatore getGiocatoreByPeer(PeerAddress peer) {
 		for(Giocatore g: this.giocatori) {
 			if(g.getPeerAddres().equals(peer))
 				return g;
@@ -153,6 +170,11 @@ public class CampoDiGioco implements Serializable{
 	
 	public void aggiungiGiocatore(Giocatore g) {
 		this.giocatori.add(g);
+		
+	}
+	
+	public void rimuoviGiocatore(Giocatore g) {
+		this.giocatori.remove(g);
 		
 	}
 	
@@ -184,5 +206,6 @@ public class CampoDiGioco implements Serializable{
 		
 		return s;
 	}
+	
 	
 }

@@ -1,6 +1,9 @@
 package it.raffaelemarino.sudoku;
 
 import java.io.IOException;
+import java.util.Random;
+
+import javax.print.attribute.standard.PrinterInfo;
 
 import org.beryx.textio.TextIO;
 import org.beryx.textio.TextIoFactory;
@@ -16,15 +19,15 @@ public class Esempio {
 			- se non è stato piazzato allora prende 1 punto
 			- se è stato piazzato prende 0 punti
 			- altrimenti -1 (se sbaglia numero)
-	
+
 		matrice 9x9
-	
+
 		tutti i giocatori sono informati quando un giocatore incrementa il suo punteggio e quando il gioco è finito (in quella partita)
-	
+
 		i giocatori possono generare delle partite indentificate da un nome
-	
+
 		si può entrare in un gioco con un nickname
-	
+
 		dato l'indice della matrice piazzare un numero
 	 */
 
@@ -56,29 +59,94 @@ public class Esempio {
 				printMenu(terminal);
 
 				scelta = textIO.newIntInputReader().withMaxVal(5).withMinVal(1).read("Scelta");
+				String nome_gioco="";
 
 				switch(scelta) {
 
 				case 1:
-
+					Random random = new Random();
+					nome_gioco = textIO.newStringInputReader().withDefaultValue("sudoku"+random.nextInt()).read("Game name");
+					Integer[][] nuovo_gioco = peer.generateNewSudoku(nome_gioco);
+					if(nuovo_gioco==null)
+						System.out.println("il gioco con nome: "+ nome_gioco +" già esiste");
 					break;
 
 				case 2:
+					nome_gioco = textIO.newStringInputReader().read("Game name");
+					String nickname = textIO.newStringInputReader().withDefaultValue("giocatore").read("Nickname");
+					if(peer.join(nome_gioco, nickname)) {
+						System.out.println("entrato correttamente nel gioco:"+nome_gioco+"di seguito lo stato della partita: ");
+
+
+						Integer[][] campo_di_gioco = peer.getSudoku(nome_gioco);
+
+						for(int i=0; i<9;i++) {
+							for(int j=0;j<9;j++) {
+								System.out.print(campo_di_gioco[i][j]+"   ");
+							}
+							System.out.println();
+						}
+
+					}
 
 					break;
-				
+
 				case 3:
-					
+					nome_gioco = textIO.newStringInputReader().read("Game name");
+					int i = textIO.newIntInputReader().withMinVal(1).withMaxVal(9).read("valore i (riga)");
+					int j = textIO.newIntInputReader().withMinVal(1).withMaxVal(9).read("valore j (colonna)");
+					int numero = textIO.newIntInputReader().withMinVal(1).withMaxVal(9).read("valore");
+					Integer punto = peer.placeNumber(nome_gioco, i, j, numero);
+					switch(punto){
+					case 1:
+						System.out.println("corretto, hai guadagnato un punto");
+						break;
+
+					case 0:
+						System.out.println("valore corretto ma già inserito, non perdi niente");
+						break;
+
+					case -1:
+						System.out.println("hai perso un punto");
+						break;
+
+					default:
+						System.out.println("error");
+						break;
+
+
+					}
+
 					break;
 
 				case 4:
-					
+					nome_gioco = textIO.newStringInputReader().read("Game name");
+
+					Integer[][] campo_di_gioco = peer.getSudoku(nome_gioco);
+
+					for(int i1=0; i1<9;i1++) {
+						for(int j1=0;j1<9;j1++) {
+							System.out.print(campo_di_gioco[i1][j1]+"   ");
+						}
+						System.out.println();
+					}
+
 					break;
-					
+
 				case 5:
-					
+
+					nome_gioco = textIO.newStringInputReader().read("Game name");
+					peer.leaveGame(nome_gioco);
+
 					break;
+
+				case 6:
+
 					
+					peer.leaveNetwoks();
+
+					break;
+
 				default:
 					break;
 				}
@@ -100,7 +168,9 @@ public class Esempio {
 		terminal.printf("\n2 - ENTRA IN UNA PARTITA\n");
 		terminal.printf("\n3 - PIAZZA NUMERO\n");
 		terminal.printf("\n4 - VISUALIZZA STATO PARTITA\n");
-		terminal.printf("\n5 - EXIT\n");
+		terminal.printf("\n5 - ESCI DA GIOCO\n");
+		terminal.printf("\n6 - ESCI DA NETWORK\n");
+
 
 	}
 

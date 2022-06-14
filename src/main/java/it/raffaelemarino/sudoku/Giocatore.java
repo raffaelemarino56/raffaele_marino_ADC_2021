@@ -58,6 +58,11 @@ public class Giocatore implements Serializable{
 		this.giocoGiocatore = giocoGiocatore;
 	}
 
+	public ArrayList<CampoDiGioco> getListaGiochi(){
+		
+		return giochi;
+	}
+	
 	public boolean addGiocoAGiocatore(CampoDiGioco g) {
 		if(giochi.add(g))
 			return true;

@@ -1,5 +1,7 @@
 package it.raffaelemarino.sudoku;
 
+import java.util.Random;
+
 public class prova {
 
 	public static void main(String[] args) {
@@ -33,6 +35,27 @@ public class prova {
 
 		}
 
+		
+		int[][] campo_iniziale = a;
+		//tolgo alcuni numeri al campo di gioco per poterlo dare ai giocatori
+		//i numeri nel sudoku vanno da 1 a 9, piazzo uno 0 dove devo "nascondere il numero"
+		Random random = new Random();
+
+		
+		for(int i=0; i<9;i++) {
+			for(int j=0;j<9;j++) {
+				
+				if(random.nextBoolean()) {
+					campo_iniziale[i][j]=0;
+				}
+				System.out.print(campo_iniziale[i][j]+"   ");
+			}
+			System.out.println();
+		}
+		
+
+		
+		
 	}
 
 }

@@ -82,6 +82,7 @@ public class SudokuGameImpl implements SudokuGame{
 
 		try {
 			FutureGet futureGet = _dht.get(Number160.createHash(_game_name)).start().awaitUninterruptibly();
+
 			//controllo se esiste il gioco con quel nome
 			if (futureGet.isSuccess() && !futureGet.isEmpty()) { 
 				//recupero il gioco, che contiene il campo e i giocatori
@@ -89,12 +90,15 @@ public class SudokuGameImpl implements SudokuGame{
 
 
 				//controllo se sono già in gioco o già esiste quel nickcanme
-				if(gioco.isNickInGame(_nickname) || gioco.isPeerInGame(this.id))
+				//potrebbe capitare un nuovo gioco con lo stesso nome di uno precedente già terminato, al quale il giocatore aveva già fatto
+				//accesso, ecco perchè è bene controllare se nel gioco il giocatore è presente
+				//avendo il giocatore una lista dei giochi ai quali ha partecipato potrebbe confondere
+				if(gioco.isNickInGame(_nickname) || gioco.isPeerInGame(this.peer.peerAddress()))
 					return false;
 
-				
+
 				Giocatore giocatore = new Giocatore(_nickname,this.peer.peerAddress(),id,0,gioco.getCampo_di_gioco_iniziale() );
-				
+
 				//devo aggiungere questo gioco alla lista dei giochi a cui il giocatore partecipa, perchè può partecipare a più giochi
 				if(giocatore.addGiocoAGiocatore(gioco)) {
 					//mi aggiungo alla lista giocatori di quel gioco
@@ -102,14 +106,14 @@ public class SudokuGameImpl implements SudokuGame{
 
 					//aggiorno lo stato
 					_dht.put(Number160.createHash(_game_name)).data(new Data(gioco)).start().awaitUninterruptibly();
-					
+
 					//notifico a tutti i giocatori in quella partita l'accesso del nuovo giocatore
 					for(Giocatore g : gioco.getGiocatori()) {
 						FutureDirect futureDirect = _dht.peer().sendDirect(g.getPeerAddres()).object("giocatore" + _nickname + "è entrato in partita").start().awaitUninterruptibly();
 					}
 				}
-				
-				
+
+
 			}else {
 				return false;
 			}
@@ -119,10 +123,10 @@ public class SudokuGameImpl implements SudokuGame{
 
 		return false;
 	}
-	
-	
 
-	//visualizza stato di una partita
+
+
+	//visualizza stato di una partita relativo al giocatore che ha chiamato questa operazione e ritorna il campo di gioco
 	public Integer[][] getSudoku(String _game_name) {
 		// TODO Auto-generated method stub
 		try {
@@ -132,11 +136,12 @@ public class SudokuGameImpl implements SudokuGame{
 			if (futureGet.isSuccess() && !futureGet.isEmpty()) { 
 				CampoDiGioco gioco = (CampoDiGioco) futureGet.dataMap().values().iterator().next().object();
 
-				//recupero le info del giocatore con id se esiste
-				Giocatore giocatore = gioco.getGiocatoreByPeer(id);
+				//recupero le info del giocatore con id se partecipa al gioco
+				Giocatore giocatore = gioco.getGiocatoreByPeer(this.peer.peerAddress());
 
-				if(giocatore != null)
+				if(giocatore != null) {
 					return giocatore.getGiocoGiocatore();
+				}
 
 
 			}
@@ -160,32 +165,39 @@ public class SudokuGameImpl implements SudokuGame{
 
 
 				//recupero il campo di gioco relativo al _game_name del giocatore con id se esiste
-				Giocatore giocatore = gioco.getGiocatoreByPeer(id);
+				Giocatore giocatore = gioco.getGiocatoreByPeer(this.peer.peerAddress());
 				if(giocatore == null)
 					return null;
 
 				//piazza numero e ottieni il punteggio
 				int punto=gioco.controllaNumeroPiazzato(_i, _j, _number);
 
-				//aggiorno puntegigo giocatore
-				giocatore.setPunteggio(giocatore.getPunteggio()+punto);
+				//aggiorna il campo di gioco se il giocatore ha messo il valore giusto
+				if(punto==1)
+					gioco.aggiornaCampoDiGioco(_i, _j, _number);
 
-				//aggiorno lista giocatori nel gioco
-				gioco.aggiornaListaGiocatori(giocatore);
+				//aggiorno punteggio giocatore
+				if(punto!=0)
+					giocatore.setPunteggio(giocatore.getPunteggio()+punto);
 
-				//aggiorno lo stato
+				//aggiorno lista giocatori nel gioco per via del nuovo punteggio del giocatore
+				if(punto!=0)
+					gioco.aggiornaListaGiocatori(giocatore);
+
+				//aggiorno lo stato della partita
 				_dht.put(Number160.createHash(_game_name)).data(new Data(gioco)).start().awaitUninterruptibly();
 
 
 				//notifico a tutti i giocatori in quella partita che ho piazzato il numero e il mio punteggio
 				for(Giocatore g : gioco.getGiocatori()) {
 					FutureDirect futureDirect = _dht.peer().sendDirect(g.getPeerAddres()).object("giocatore" + giocatore.getNick() + "ha messo il numero" + _number +" in posizione i:"+_i+" j:"+_j+"ed ha punteggio:"+giocatore.getPunteggio()).start().awaitUninterruptibly();
-					
+
 					//se il gioco è finito lo notifico a tutti e mostro la scoreboard
 					if(gioco.isFinish()) {
 						FutureDirect futureDirect2= _dht.peer().sendDirect(g.getPeerAddres()).object("il gioco è finito!!!, questa è la scoreboard: "+gioco.getScoreboard()).start().awaitUninterruptibly();
 					}
 				}
+				return punto;
 			}
 		}catch(Exception e) {
 			// TODO: handle exception
@@ -195,32 +207,43 @@ public class SudokuGameImpl implements SudokuGame{
 	}
 
 
+
+
+
+	//leave da un solo gioco
 	@SuppressWarnings("unchecked")
-	public boolean leveGame(String _game_name) {
+	public boolean leaveGame(String _game_name) {
 		try {
-			FutureGet futureGet = _dht.get(Number160.createHash(_game_name)).start();
-			futureGet.awaitUninterruptibly();
-			if (futureGet.isSuccess()) {
-				if(futureGet.isEmpty() ) return false;
-				HashSet<PeerAddress> peers_on_topic;
-				peers_on_topic = (HashSet<PeerAddress>) futureGet.dataMap().values().iterator().next().object();
-				peers_on_topic.remove(_dht.peer().peerAddress());
-				_dht.put(Number160.createHash(_game_name)).data(new Data(peers_on_topic)).start().awaitUninterruptibly();
-				s_topics.remove(_game_name);
-				return true;
+			FutureGet futureGet = _dht.get(Number160.createHash(_game_name)).start().awaitUninterruptibly();
+			if (futureGet.isSuccess() && !futureGet.isEmpty()) {
+
+				CampoDiGioco gioco = (CampoDiGioco) futureGet.dataMap().values().iterator().next().object();
+
+				Giocatore g = gioco.getGiocatoreByPeer(this.peer.peerAddress());
+				
+				if(gioco.isPeerInGame(this.peer.peerAddress())) {
+					gioco.rimuoviGiocatore(g);
+					g.removeGiocoDaGiocatore(gioco);
+					//aggiorno lo stato della partita
+					_dht.put(Number160.createHash(_game_name)).data(new Data(gioco)).start().awaitUninterruptibly();
+
+					return true;
+				}
+
+
 			}
 		}catch (Exception e) {
 			e.printStackTrace();
 		}
 		return false;
 	}
-
-	public boolean leaveNetwork() {
-		//deve lasciare tutte le partite nelle quali è in gioco
-		for(String topic: new ArrayList<String>(s_topics)) 
-			leveGame(topic);
+	
+	
+	public boolean leaveNetwoks() {
+		
 		_dht.peer().announceShutdown().start().awaitUninterruptibly();
 		return true;
+		
 	}
 
 }
