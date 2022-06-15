@@ -1,5 +1,9 @@
 # Raffaele Marino, Sudoku Game
 <br>
+MD5 di "raffaelemarino-09": 7b0c1ffcab627351ec15fe0dead4f720
+
+Progetto: <b>Sudoku</b>
+Studente: <b>Raffaele Marino</b> (matricola 0522500868)
 
 <h1> Problema </h1>
 <br>
