@@ -52,10 +52,17 @@ Per la soluzione è stato creato un progetto Maven e aggiunte le seguenti dipend
 <h3>Descrizione delle classi</h3>
 
 <table>
-<tr><td>Classe</td><td>Descrizione</td></tr>
-<tr><td>Dato 1,1</td><td>Dato 1,2</td></tr>
-<tr><td>Dato 2,1</td><td>Dato 2,2</td></tr>
-<tr><td>Dato 3,1</td><td>Dato 3,2</td></tr>
+    <tr><td>Classe</td>             <td>Descrizione</td></tr>
+    
+    <tr><td>CampoDiGioco</td>       <td>Definisce il campo di gioco completo e quello visualizzato dagli utenti, gestisce la lista di giocatori in quel gioco e i vari metodi di controllo sul campo di gioco. </td></tr>
+    <tr><td>Esempio</td>            <td>Contiene ciò che l'utente poi vede, ovvero il menù e utilizzo dei metodi dichiarati in SudokuGameImpl. Qui si gioca!</td></tr>
+    <tr><td>Giocatore</td>          <td>Classe nella quale è definito il giocatore, tutte le proprietà che gli appartengono </td></tr>
+    <tr><td>MessageListner</td>     <td>Classe usata per ricevere messaggi </td></tr>
+    <tr><td>MessageListnerImpl</td> <td>Implementazione di MessageListner </td></tr>
+    <tr><td>prova</td>              <td>Classe usata solo per fare prove di metodi (creazione sudoku e campo di gioco) </td></tr>
+    <tr><td>SudokuGame</td>         <td>Classe con metodi forniti, usati per poter crare i metodi del gioco </td></tr>
+    <tr><td>SudokuGameImpl</td>     <td>Implementazione di SudokuGame, nella quale sono presenti metodi che creano il gioco usando una DHT, il peer che utilizza tale DHT e uso dei metodi per il gioco sudoku</td></tr>
+    
 </table>
 
 <h1>Testing</h1>
