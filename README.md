@@ -49,6 +49,14 @@ Per la soluzione è stato creato un progetto Maven e aggiunte le seguenti dipend
 </dependencies>
 ```
 
+La soluzione è un gioco sudoku su terminale, che permette ai giocatori di creare partite, entrare in una partita (o più), visualizzare lo stato della partita, lascaire partite anche in corso, ma cosa più importante di giocare!
+
+Il gioco consiste in un sudoku con matrice 9x9, dove ogni giocatore dovrà inserire un numero dato il nome del gioco, riga, colonna e valore che si vuole inserire. All'immisione del valore sarà possibile vedere se è corretto il valore inserito o meno, e ottenere un puteggio di conseguenza. 
+
+Il gioco termina quando tutta la griglia è completa.
+
+
+Di seguito una descrizione delle classi nel progetto:
 <h3>Descrizione delle classi</h3>
 
 <table>
