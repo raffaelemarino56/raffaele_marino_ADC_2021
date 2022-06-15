@@ -24,3 +24,22 @@ Si può entrare in un gioco con un nickname
 
 
 Dato l'indice della matrice(i,j) piazzare un numero
+
+<h1>Soluzione</h1>
+Per la soluzione è stato creato un progetto Maven e aggiunte le seguenti dipendenze di TomP2P nel file pom.xml:
+
+```
+<repositories>
+    <repository>
+        <id>tomp2p.net</id>
+         <url>http://tomp2p.net/dev/mvn/</url>
+     </repository>
+</repositories>
+<dependencies>
+   <dependency>
+     <groupId>net.tomp2p</groupId>
+     <artifactId>tomp2p-all</artifactId>
+      <version>5.0-Beta8</version>
+   </dependency>
+</dependencies>
+```
