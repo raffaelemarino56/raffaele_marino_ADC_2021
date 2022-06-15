@@ -69,7 +69,7 @@ Per la soluzione è stato creato un progetto Maven e aggiunte le seguenti dipend
 
 <h3>Descrizione classe di testing</h3>
 <table>
-    <tr><td>**Nome Test**</td><td>**Descrizione**</td></tr>
+    <tr><td><b>Nome Test</b></td><td><b>Descrizione</b></td></tr>
     <tr><td>_setup_</td><td> </td></tr>
     <tr><td>_testCaseGenerateNewSudoku_</td><td> </td></tr>
     <tr><td>_testCaseGenerateNewSudokuStessoNome_</td><td> </td></tr>
