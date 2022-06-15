@@ -26,6 +26,7 @@ Si può entrare in un gioco con un nickname
 Dato l'indice della matrice(i,j) piazzare un numero
 
 <h1>Soluzione</h1>
+<br>
 Per la soluzione è stato creato un progetto Maven e aggiunte le seguenti dipendenze di TomP2P nel file pom.xml:
 
 ```
@@ -43,3 +44,12 @@ Per la soluzione è stato creato un progetto Maven e aggiunte le seguenti dipend
    </dependency>
 </dependencies>
 ```
+
+<h1>Testing</h1>
+<br>
+
+
+
+
+<h1>Docker</h1>
+<br>
