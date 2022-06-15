@@ -52,7 +52,7 @@ Per la soluzione è stato creato un progetto Maven e aggiunte le seguenti dipend
 <h3>Descrizione delle classi</h3>
 
 <table>
-<tr><td>Colonna 1</td><td>Colonna 2</td></tr>
+<tr><td>Classe</td><td>Descrizione</td></tr>
 <tr><td>Dato 1,1</td><td>Dato 1,2</td></tr>
 <tr><td>Dato 2,1</td><td>Dato 2,2</td></tr>
 <tr><td>Dato 3,1</td><td>Dato 3,2</td></tr>
@@ -63,7 +63,7 @@ Per la soluzione è stato creato un progetto Maven e aggiunte le seguenti dipend
 
 <h3>descrizione classe di testing</h3>
 <table>
-<tr><td>Colonna 1</td><td>Colonna 2</td></tr>
+<tr><td>Nome Test</td><td>Descrizione</td></tr>
 <tr><td>Dato 1,1</td><td>Dato 1,2</td></tr>
 <tr><td>Dato 2,1</td><td>Dato 2,2</td></tr>
 <tr><td>Dato 3,1</td><td>Dato 3,2</td></tr>
