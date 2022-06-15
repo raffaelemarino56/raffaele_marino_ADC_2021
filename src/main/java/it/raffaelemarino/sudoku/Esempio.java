@@ -96,7 +96,7 @@ public class Esempio {
 					int i = textIO.newIntInputReader().withMinVal(1).withMaxVal(9).read("valore i (riga)");
 					int j = textIO.newIntInputReader().withMinVal(1).withMaxVal(9).read("valore j (colonna)");
 					int numero = textIO.newIntInputReader().withMinVal(1).withMaxVal(9).read("valore");
-					Integer punto = peer.placeNumber(nome_gioco, i, j, numero);
+					Integer punto = peer.placeNumber(nome_gioco, i-1, j-1, numero);
 					switch(punto){
 					case 1:
 						System.out.println("corretto, hai guadagnato un punto");
