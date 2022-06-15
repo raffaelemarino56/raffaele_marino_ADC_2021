@@ -57,3 +57,29 @@ Per la soluzione è stato creato un progetto Maven e aggiunte le seguenti dipend
 
 <h1>Docker</h1>
 <br>
+Viene utilizzato un docker per poter lanviare facilmente il progetto.
+Usando il Dockerfile nella repo avviare la build traminte il comando:
+
+```
+$ docker build --no-cache -t raffaele-marino/sudoku
+```
+
+ora lancaire i peer:
+
+Master
+
+```
+$ docker run -i --rm --name MASTER_PEER -e ID=0 raffaele-marino/sudoku
+```
+
+Altri
+
+```
+$ docker run -i --rm --name PEER1 -e ID=1 -e MASTER=<MASTER ADDRESS> raffaele-marino/sudoku
+```
+
+Per controllare l'indirizzo del master usare il comando
+```
+$ docker inspect
+```
+
