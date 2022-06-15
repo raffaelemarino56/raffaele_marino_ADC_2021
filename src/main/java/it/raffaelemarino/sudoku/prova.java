@@ -3,6 +3,9 @@ package it.raffaelemarino.sudoku;
 import java.util.Random;
 
 public class prova {
+	
+	//classe utilizzata solo per provare il funzionamento di creazione sudoku intero
+	//e dal sudoku intero togliere qualche numero in modo randomico
 
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
