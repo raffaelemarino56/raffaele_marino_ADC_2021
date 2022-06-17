@@ -84,6 +84,9 @@ Di seguito una descrizione delle classi nel progetto:
     <tr><td>_testCaseJoinGame_</td><td>Faccio entrare in una nuova partita i peer in modo corretto </td></tr>
     <tr><td>_testCaseJoinConStessoNome_</td><td>Faccio entrare in una partita due peer con lo stesso nome aspettandomi che il secondo dia come risutlato null </td></tr>
     <tr><td>_testCasePlaceNumber_</td><td>Piazzo un valore nel sudoku </td></tr>
+    <tr><td>_testCaseGetLead_</td><td>Recupera la lead board di una partita </td></tr>
+    <tr><td>_testCaseIsTerminated_</td><td>Controlla se il gioco è terminato </td></tr>
+     <tr><td>_testCaseLeaveAllGames_</td><td>Lascia tutti i giochi che hai joinato </td></tr>
     <tr><td>_testCasePlaceNumberInSamePosition_</td><td>Piazzo lo stesso valore in un sudoku aspettandomi che uno dei due sia pari a 0 </td></tr>
     <tr><td>_testGetSudoku_</td><td>Mi recupero le informazioni di una partita alla quale sono entrato, successivamente provo a far fare la stessa cosa a un altro peer che non era in partita aspettandomi null come risultato </td></tr>
     <tr><td>_testLeaveGame_</td><td>Faccio il test del leave game con due peer, il primo che era in partita e la lascia, il secondo non era in partita e mi aspetto null come risultato </td></tr>
