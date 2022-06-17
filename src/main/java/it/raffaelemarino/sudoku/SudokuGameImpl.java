@@ -24,7 +24,7 @@ public class SudokuGameImpl implements SudokuGame{
 	final private int DEFAULT_MASTER_PORT=4000;
 	private Integer id;
 
-	final private ArrayList<String> s_topics=new ArrayList<String>();
+	private ArrayList<String> listaGiochi=new ArrayList<String>();
 
 
 	public SudokuGameImpl(int _id, String _master_peer, final MessageListenerImpl _listener) throws Exception {
@@ -103,6 +103,7 @@ public class SudokuGameImpl implements SudokuGame{
 				if(giocatore.addGiocoAGiocatore(gioco)) {
 					//mi aggiungo alla lista giocatori di quel gioco
 					gioco.aggiungiGiocatore(giocatore);
+					this.listaGiochi.add(_game_name);
 
 					//aggiorno lo stato
 					_dht.put(Number160.createHash(_game_name)).data(new Data(gioco)).start().awaitUninterruptibly();
@@ -208,6 +209,66 @@ public class SudokuGameImpl implements SudokuGame{
 
 
 
+	//restituisce la score board
+	public String getLeadboard(String _game_name){
+		String s = null;
+		try {
+
+
+			FutureGet futureGet = _dht.get(Number160.createHash(_game_name)).start().awaitUninterruptibly();
+			if (futureGet.isSuccess() && !futureGet.isEmpty()) {
+
+				CampoDiGioco gioco = (CampoDiGioco) futureGet.dataMap().values().iterator().next().object();
+				Giocatore g = gioco.getGiocatoreByPeer(this.peer.peerAddress());
+
+				//se il giocatore partecipa alla partita allora può vedere la lead board altrimenti no
+				if(gioco.isPeerInGame(this.peer.peerAddress())) {
+
+					return gioco.getScoreboard();
+
+
+				}else{
+					return null;
+				}
+
+
+			}else {
+				return null;
+			}
+		}catch (Exception e) {
+			e.printStackTrace();
+		}
+		return s;
+
+	}
+
+
+	public int isTeerminated(String _game_name){
+		try {
+			FutureGet futureGet = _dht.get(Number160.createHash(_game_name)).start().awaitUninterruptibly();
+			if (futureGet.isSuccess() && !futureGet.isEmpty()) {
+				CampoDiGioco gioco = (CampoDiGioco) futureGet.dataMap().values().iterator().next().object();
+
+				Giocatore g = gioco.getGiocatoreByPeer(this.peer.peerAddress());
+
+				if(gioco.isPeerInGame(this.peer.peerAddress())) {
+					if(gioco.isFinish()) {
+						//sei in gioco ed è terminato
+						return 1;
+					}
+				}else {
+					//non sei in gioco non puoi sapere se il gioco è terminato o meno
+					return 0;
+				}
+
+
+			}
+		}catch (Exception e) {
+			e.printStackTrace();
+		}
+		//c'è stato un errore
+		return -1;
+	}
 
 
 	//leave da un solo gioco
@@ -220,7 +281,7 @@ public class SudokuGameImpl implements SudokuGame{
 				CampoDiGioco gioco = (CampoDiGioco) futureGet.dataMap().values().iterator().next().object();
 
 				Giocatore g = gioco.getGiocatoreByPeer(this.peer.peerAddress());
-				
+
 				if(gioco.isPeerInGame(this.peer.peerAddress())) {
 					gioco.rimuoviGiocatore(g);
 					g.removeGiocoDaGiocatore(gioco);
@@ -237,13 +298,26 @@ public class SudokuGameImpl implements SudokuGame{
 		}
 		return false;
 	}
-	
-	
+
+
+	//lascaire tutte le partite prima di lascaire la rete
+	public boolean leveAllGames() {
+
+		while(!this.listaGiochi.isEmpty()) {
+			leaveGame(this.listaGiochi.get(0));
+			this.listaGiochi.remove(0);
+
+		}
+		leaveNetwoks();
+
+		return true;
+	}
+
 	public boolean leaveNetwoks() {
-		
+
 		_dht.peer().announceShutdown().start().awaitUninterruptibly();
 		return true;
-		
+
 	}
 
 }

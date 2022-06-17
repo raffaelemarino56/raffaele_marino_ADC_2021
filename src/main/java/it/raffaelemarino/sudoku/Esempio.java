@@ -142,8 +142,51 @@ public class Esempio {
 
 				case 6:
 
-					
+
 					peer.leaveNetwoks();
+
+					break;
+
+				case 7:
+
+					nome_gioco = textIO.newStringInputReader().read("Game name");
+					String s = peer.getLeadboard(nome_gioco);
+					if(s.equals(null)) {
+						System.out.println("Non sei un giocatore che partecipa a questa partita");
+					}else {
+						System.out.println(s);
+					}
+
+
+					break;
+				
+					
+				case 8:
+
+					nome_gioco = textIO.newStringInputReader().read("Game name");
+					
+					switch(peer.isTeerminated(nome_gioco)) {
+					case 0:
+						System.out.println("non sei in partita!!! entra per scoprire l ostato della partita!");
+						break;
+					case 1:
+						System.out.println("il gioco "+nome_gioco+" è terminato");
+						break;
+					case -1:
+						System.out.println("si è verificato un errore");
+						break;
+					default:
+						System.out.println("il gioco "+nome_gioco+" non è ancora terminato, fai la tua mossa!");
+						break;
+					
+					}
+					
+					break;
+					
+				case 9:
+
+
+					peer.leveAllGames();
 
 					break;
 
@@ -163,13 +206,21 @@ public class Esempio {
 
 	}
 
+	
 	public static void printMenu(TextTerminal terminal) {
+		
 		terminal.printf("\n1 - CREA GIOCO\n");
 		terminal.printf("\n2 - ENTRA IN UNA PARTITA\n");
 		terminal.printf("\n3 - PIAZZA NUMERO\n");
 		terminal.printf("\n4 - VISUALIZZA STATO PARTITA\n");
 		terminal.printf("\n5 - ESCI DA GIOCO\n");
 		terminal.printf("\n6 - ESCI DA NETWORK\n");
+		//funzioni in più rispetto alla traccia
+		terminal.printf("\n7 - VISUALIZZA LEAD BOARD\n");
+		terminal.printf("\n8 - CONTROLLA SE UN GIOCO E' TERMINATO\n");
+		terminal.printf("\n9 - ESCI DA TUTTE LE PARTITE E DALLA NETWORK\n");
+
+
 
 
 	}

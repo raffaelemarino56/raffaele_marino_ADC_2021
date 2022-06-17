@@ -202,7 +202,7 @@ public class CampoDiGioco implements Serializable{
 		String s="";
 		
 		for(Giocatore g: this.giocatori)
-			s=g.getNick()+" ha punteggio: "+g.getPunteggio() +"\n";
+			s+=g.getNick()+" ha punteggio: "+g.getPunteggio() +"\n";
 		
 		return s;
 	}

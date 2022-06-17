@@ -1,5 +1,6 @@
 package it.raffaelemarino.sudoku;
 
+import java.util.ArrayList;
 import java.util.Random;
 
 public class prova {
@@ -56,6 +57,18 @@ public class prova {
 			System.out.println();
 		}
 		
+		
+		ArrayList<String> s = new ArrayList<String>();
+		for(int i = 0; i<10; i++) {
+			s.add(""+random.nextDouble());
+			System.out.println("aggiugno "+s.get(i));
+		}
+		
+		while(!s.isEmpty()) {
+			System.out.println("rimuovo "+s.get(0));
+			s.remove(0);
+			
+		}
 
 		
 		
