@@ -69,11 +69,30 @@ public class TestSudokuGameImpl {
 		assertNull(peer2.getSudoku("Sudoku6"));
 	}
 	
+	
+	@Test
+	public void testGetLead(TestInfo testInfo) {
+		assertNotNull(peer1.getLeadboard("Sudoku5"));
+	}
+	
+	
+	@Test
+	public void testIsTerminated(TestInfo testInfo) {
+		assertNotNull(peer1.isTeerminated("Sudoku5"));
+	}
+	
 	@Test
 	public void testLeaveGame(TestInfo testInfo) {
 		assertTrue(peer1.leaveGame("Sudoku6"));
 		assertFalse(peer0.leaveGame("Sudoku6"));
 	}
+	
+	@Test
+	public void testLeaveAllGame(TestInfo testInfo) {
+		assertTrue(peer1.leveAllGames());
+	}
+	
+
 	
 	@AfterAll
 	public void testLeaveNetwork(TestInfo testInfo) {
