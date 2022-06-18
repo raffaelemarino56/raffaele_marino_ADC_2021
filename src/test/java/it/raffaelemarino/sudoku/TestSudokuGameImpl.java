@@ -94,7 +94,7 @@ public class TestSudokuGameImpl {
 	
 
 	
-	@AfterAll
+	@Test
 	public void testLeaveNetwork(TestInfo testInfo) {
 		assertTrue(peer0.leaveNetwoks());
 	}
