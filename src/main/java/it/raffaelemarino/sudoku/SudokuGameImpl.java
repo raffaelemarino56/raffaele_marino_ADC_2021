@@ -57,10 +57,10 @@ public class SudokuGameImpl implements SudokuGame{
 
 		try {
 
-			FutureGet futureGet = _dht.get(Number160.createHash(_game_name)).start().awaitUninterruptibly();
+			FutureGet futureGet = _dht.get(Number160.createHash(_game_name)).start();
+					futureGet.awaitUninterruptibly();
 			//controllo se esiste il gioco con quel nome
 			if (futureGet.isSuccess() && futureGet.isEmpty()) {
-				System.out.println("ciaooooo");
 				
 				CampoDiGioco gioco = new CampoDiGioco();
 				//per _game_name crea il campo da gioco che do a new Data() ovviamente tutto l'oggetto
