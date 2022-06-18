@@ -53,8 +53,6 @@ public class SudokuGameImpl implements SudokuGame{
 	//genera nuova partita dato un nome
 	public Integer[][] generateNewSudoku(String _game_name) {
 		// TODO Auto-generated method stub
-		
-		Integer[][] a = new Integer[9][9];
 
 		try {
 
@@ -68,14 +66,14 @@ public class SudokuGameImpl implements SudokuGame{
 				_dht.put(Number160.createHash(_game_name)).data(new Data(gioco)).start().awaitUninterruptibly();
 				//return della matrice che ho creato
 
-				return a;
+				return gioco.getCampo_di_gioco_iniziale();
 			}
 
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 
-		return a;
+		return null;
 	}
 
 	//entra in una partita (avvisa i giocatori in partita che sei entrato nella partita)
