@@ -68,7 +68,7 @@ public class SudokuGameImpl implements SudokuGame{
 				_dht.put(Number160.createHash(_game_name)).data(new Data(gioco)).start().awaitUninterruptibly();
 				//return della matrice che ho creato
 
-				return gioco.getCampo_di_gioco_iniziale();
+				return a;
 			}
 
 		} catch (Exception e) {
