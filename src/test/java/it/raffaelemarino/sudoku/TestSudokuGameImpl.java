@@ -8,7 +8,7 @@ public class TestSudokuGameImpl {
 
 	protected static SudokuGameImpl peer0, peer1, peer2, peer3;
 
-	@Test
+	@BeforeAll
 	public static void setup() throws Exception{
 		peer0 = new SudokuGameImpl(0, "127.0.0.1", new MessageListenerImpl(0));	
 		peer1 = new SudokuGameImpl(1, "127.0.0.2", new MessageListenerImpl(1));
@@ -17,7 +17,12 @@ public class TestSudokuGameImpl {
 
 	}
 	
-
+	@Test
+	public void testCaseGenerateNewSudoku(TestInfo testInfo){
+		assertNotNull(peer0.generateNewSudoku("Sudoku0"));
+		
+	}
+	
 	
 
 }
