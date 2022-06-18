@@ -24,7 +24,7 @@ public class CampoDiGioco implements Serializable{
 	public CampoDiGioco() {
 		
 		this.campo_di_gioco_completo = generaCampoDiGioco();
-		this.campo_di_gioco_iniziale = generaGiocoIniziale(this.campo_di_gioco_completo);
+		this.campo_di_gioco_iniziale = generaGiocoIniziale(campo_di_gioco_completo);
 		
 	}
 	
@@ -47,7 +47,12 @@ public class CampoDiGioco implements Serializable{
 	}
 
 	public Integer[][] getCampo_di_gioco_iniziale() {
-		return this.campo_di_gioco_iniziale;
+		
+		Integer[][] temp = new Integer[9][9];
+		for(int i=0; i<9; i++)
+			temp[i] = this.campo_di_gioco_iniziale[i].clone();
+		return temp;
+		
 	}
 
 	public void setCampo_di_gioco_iniziale(Integer[][] campo_di_gioco_iniziale) {
@@ -101,7 +106,11 @@ public class CampoDiGioco implements Serializable{
 	}
 	
 	private Integer[][] generaGiocoIniziale(Integer[][] sudoku) {//DA FARE
-		Integer[][] campo_iniziale = this.campo_di_gioco_completo;
+		Integer[][] campo_iniziale = new Integer[9][9];
+		
+		for(int i=0; i<9; i++)
+			campo_iniziale[i] = sudoku[i].clone();
+		
 		//tolgo alcuni numeri al campo di gioco per poterlo dare ai giocatori
 		//i numeri nel sudoku vanno da 1 a 9, piazzo uno 0 dove devo "nascondere il numero"
 		Random random = new Random();
