@@ -100,7 +100,7 @@ Viene utilizzato un docker per poter lanviare facilmente il progetto.
 Usando il Dockerfile nella repo avviare la build traminte il comando:
 
 ```
-$ docker build --no-cache -t raffaele-marino/sudoku
+$ docker build --no-cache -t sudoku .
 ```
 
 ora lancaire i peer:
