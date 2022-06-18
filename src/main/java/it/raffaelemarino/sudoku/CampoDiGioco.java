@@ -24,7 +24,7 @@ public class CampoDiGioco implements Serializable{
 	public CampoDiGioco() {
 		
 		this.campo_di_gioco_completo = generaCampoDiGioco();
-		this.campo_di_gioco_iniziale = generaGiocoIniziale(campo_di_gioco_completo);
+		this.campo_di_gioco_iniziale = generaGiocoIniziale(this.campo_di_gioco_completo);
 		
 	}
 	
@@ -39,7 +39,7 @@ public class CampoDiGioco implements Serializable{
 	}
 
 	public Integer[][] getCampo_di_gioco_completo() {
-		return campo_di_gioco_completo;
+		return this.campo_di_gioco_completo;
 	}
 
 	public void setCampo_di_gioco_completo(Integer[][] campo_di_gioco_completo) {
@@ -47,7 +47,7 @@ public class CampoDiGioco implements Serializable{
 	}
 
 	public Integer[][] getCampo_di_gioco_iniziale() {
-		return campo_di_gioco_iniziale;
+		return this.campo_di_gioco_iniziale;
 	}
 
 	public void setCampo_di_gioco_iniziale(Integer[][] campo_di_gioco_iniziale) {
@@ -124,10 +124,10 @@ public class CampoDiGioco implements Serializable{
 	public int controllaNumeroPiazzato(int i,int j,int valore) {
 		
 		//se è corretto e il valore nel campo di gioco dove giocano i giocatori è 0 allora dai 1 punto
-		if(campo_di_gioco_completo[i][j]==valore && campo_di_gioco_iniziale[i][j]==0)
+		if(this.campo_di_gioco_completo[i][j]==valore && this.campo_di_gioco_iniziale[i][j]==0)
 			return 1;
 		//se è corretto il valore ma nel campo di gioco dove giocano i giocatori c'era già il valore allora dai 0 punti
-		if(campo_di_gioco_completo[i][j]==valore && campo_di_gioco_iniziale[i][j]==valore)
+		if(this.campo_di_gioco_completo[i][j]==valore && this.campo_di_gioco_iniziale[i][j]==valore)
 			return 0;
 		
 		//-1 altrimenti, vuol dire che non era corretto il valore
@@ -136,7 +136,7 @@ public class CampoDiGioco implements Serializable{
 	
 	public void aggiornaCampoDiGioco(int i,int j,int valore) {
 		
-		campo_di_gioco_iniziale[i][j]=valore;
+		this.campo_di_gioco_iniziale[i][j]=valore;
 	}
 	
 	
@@ -189,7 +189,7 @@ public class CampoDiGioco implements Serializable{
 		
 		for(int i=0;i<9;i++) {
 			for(int j=0;j<9;j++) {
-				if(campo_di_gioco_completo[i][j]!=campo_di_gioco_iniziale[i][j])
+				if(this.campo_di_gioco_completo[i][j]!=this.campo_di_gioco_iniziale[i][j])
 					return false;
 			}
 		}
