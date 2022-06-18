@@ -59,12 +59,13 @@ public class SudokuGameImpl implements SudokuGame{
 			futureGet.awaitUninterruptibly();
 			//controllo se esiste il gioco con quel nome
 			if (futureGet.isSuccess() && futureGet.isEmpty()) {
-
 				
 				//per _game_name crea il campo da gioco che do a new Data() ovviamente tutto l'oggetto
 				_dht.put(Number160.createHash(_game_name)).data(new Data(gioco)).start().awaitUninterruptibly();
+					
+				
 				//return della matrice che ho creato
-
+				
 				return gioco.getCampo_di_gioco_iniziale();
 			}
 
@@ -77,27 +78,40 @@ public class SudokuGameImpl implements SudokuGame{
 
 	//entra in una partita (avvisa i giocatori in partita che sei entrato nella partita)
 	public boolean join(String _game_name, String _nickname) {
+		CampoDiGioco gioco=null;
+		
 		try {
-
-			FutureGet futureGet = _dht.get(Number160.createHash(_game_name)).start().awaitUninterruptibly();
-
+			
+			FutureGet futureGet = _dht.get(Number160.createHash(_game_name)).start();
+			futureGet.awaitUninterruptibly();
+			
 			//controllo se esiste il gioco con quel nome
 			if (futureGet.isSuccess() && !futureGet.isEmpty()) { 
+				
 				//recupero il gioco, che contiene il campo e i giocatori
-				CampoDiGioco gioco = (CampoDiGioco) futureGet.dataMap().values().iterator().next().object();
-
+				gioco = (CampoDiGioco) futureGet.dataMap().values().iterator().next().object();
+				
 
 				//controllo se sono già in gioco o già esiste quel nickcanme
 				//potrebbe capitare un nuovo gioco con lo stesso nome di uno precedente già terminato, al quale il giocatore aveva già fatto
 				//accesso, ecco perchè è bene controllare se nel gioco il giocatore è presente
 				//avendo il giocatore una lista dei giochi ai quali ha partecipato potrebbe confondere
-				if(gioco.isNickInGame(_nickname) || gioco.isPeerInGame(this.peer.peerAddress())) {return false;}
-
-
-				Giocatore giocatore = new Giocatore(_nickname,this.peer.peerAddress(),id,0,gioco.getCampo_di_gioco_iniziale() );
-
+				
+				if(gioco.isNickInGame(_nickname) || gioco.isPeerInGame(this.peer.peerAddress())) {return false;} 
+				
+				
+				//Giocatore giocatore = new Giocatore(_nickname, this.peer.peerAddress(), id, 0, gioco.getCampo_di_gioco_iniziale() );
+				Giocatore giocatore = new Giocatore();
+				giocatore.setNick(_nickname);
+				giocatore.setPeerAddres(this.peer.peerAddress());
+				giocatore.setId(id);
+				giocatore.setPunteggio(0);
+				giocatore.setGiocoGiocatore(gioco.getCampo_di_gioco_iniziale());
+				
 				//devo aggiungere questo gioco alla lista dei giochi a cui il giocatore partecipa, perchè può partecipare a più giochi
 				giocatore.addGiocoAGiocatore(gioco);
+				
+								
 				//mi aggiungo alla lista giocatori di quel gioco
 				gioco.aggiungiGiocatore(giocatore);
 
@@ -243,13 +257,12 @@ public class SudokuGameImpl implements SudokuGame{
 	}
 
 
-	public int isTeerminated(String _game_name){
+	public Integer isTeerminated(String _game_name){
+		
 		try {
 			FutureGet futureGet = _dht.get(Number160.createHash(_game_name)).start().awaitUninterruptibly();
 			if (futureGet.isSuccess() && !futureGet.isEmpty()) {
 				CampoDiGioco gioco = (CampoDiGioco) futureGet.dataMap().values().iterator().next().object();
-
-			
 
 				if(gioco.isPeerInGame(this.peer.peerAddress())) {
 					if(gioco.isFinish()) {
