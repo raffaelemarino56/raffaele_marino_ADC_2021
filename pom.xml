@@ -74,7 +74,7 @@
 							<archive>
 								<manifest>
 									<mainClass>
-										it.raffaelemarino.sudoku.Esempio
+										it.raffaelemarino.sudoku.App
 									</mainClass>
 								</manifest>
 							</archive>
