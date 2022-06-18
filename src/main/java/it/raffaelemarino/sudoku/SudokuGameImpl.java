@@ -53,6 +53,8 @@ public class SudokuGameImpl implements SudokuGame{
 	//genera nuova partita dato un nome
 	public Integer[][] generateNewSudoku(String _game_name) {
 		// TODO Auto-generated method stub
+		
+		Integer[][] a = new Integer[9][9];
 
 		try {
 
@@ -73,7 +75,7 @@ public class SudokuGameImpl implements SudokuGame{
 			e.printStackTrace();
 		}
 
-		return null;
+		return a;
 	}
 
 	//entra in una partita (avvisa i giocatori in partita che sei entrato nella partita)
