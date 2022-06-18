@@ -17,6 +17,11 @@ public class TestSudokuGameImpl {
 
 	}
 	
+	@Test
+	public void testCaseGenerateNewSudoku(TestInfo testInfo){
+		assertNotNull(peer0.generateNewSudoku("Sudoku0"));
+	}
+	
 	
 
 }
