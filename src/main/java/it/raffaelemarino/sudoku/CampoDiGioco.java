@@ -170,7 +170,7 @@ public class CampoDiGioco implements Serializable{
 	
 	public Giocatore getGiocatoreByPeer(PeerAddress peer) {
 		for(Giocatore g: this.giocatori) {
-			if(g.getPeerAddres().equals(peer))
+			if(g.getPeerAddres()==peer)
 				return g;
 		}
 		

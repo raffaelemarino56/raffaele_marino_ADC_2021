@@ -23,6 +23,19 @@ public class TestSudokuGameImpl {
 		
 	}
 	
+	@Test
+	public void testCaseGenerateNewSudokuStessoNome(TestInfo testInfo){
+		assertNotNull(peer0.generateNewSudoku("Sudoku1"));
+		assertNull(peer1.generateNewSudoku("Sudoku1"));
+	}
+	
+	
+	@Test
+	public void testCaseJoinConStessoNome(TestInfo testInfo){
+		assertNotNull(peer1.generateNewSudoku("Sudoku3"));
+		assertTrue(peer1.join("Sudoku3", "Raffaele"));
+		assertFalse(peer2.join("Sudoku3", "Raffaele"));
+	}
 	
 
 }
