@@ -42,13 +42,12 @@ public class SudokuGameImpl implements SudokuGame{
 			throw new Exception("Error in master peer bootstrap.");
 		}
 
-		peer.objectDataReply(new ObjectDataReply() {
-
-			public Object reply(PeerAddress sender, Object request) throws Exception {
-				return _listener.parseMessage(request);
-			}
-		});
-
+		if (_listener!=null)
+			this.peer.objectDataReply(new ObjectDataReply() {
+				public Object reply(PeerAddress sender, Object request) throws Exception {
+					return _listener.parseMessage(request);
+				}
+			});
 	}
 
 	//genera nuova partita dato un nome
