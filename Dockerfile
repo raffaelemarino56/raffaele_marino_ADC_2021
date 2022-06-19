@@ -11,6 +11,6 @@ FROM openjdk:8-jre-alpine
 WORKDIR /app
 ENV ID=0
 ENV MASTER=127.0.0.1
-COPY --from=1 /app/target/sudoku-1.0-jar-with-dependencies.jar /app
+COPY --from=1 /app/target/adc-0.0.1-SNAPSHOT-jar-with-dependencies.jar /app
 
-CMD /usr/bin/java -jar sudoku-1.0-jar-with-dependencies.jar -i $ID -m $MASTER
+CMD /usr/bin/java -jar adc-0.0.1-SNAPSHOT-jar-with-dependencies.jar -i $ID -m $MASTER
