@@ -65,7 +65,6 @@ public class SudokuGameImpl implements SudokuGame{
 					
 				
 				//return della matrice che ho creato
-				
 				return gioco.getCampo_di_gioco_iniziale();
 			}
 
@@ -177,7 +176,7 @@ public class SudokuGameImpl implements SudokuGame{
 			//verifico se esiste
 			if (futureGet.isSuccess() && !futureGet.isEmpty()) { 
 				CampoDiGioco gioco = (CampoDiGioco) futureGet.dataMap().values().iterator().next().object();
-
+				
 
 				//recupero il campo di gioco relativo al _game_name del giocatore con id se esiste
 				Giocatore giocatore = gioco.getGiocatoreByPeer(this.peer.peerAddress());
@@ -187,14 +186,14 @@ public class SudokuGameImpl implements SudokuGame{
 				}
 
 				//piazza numero e ottieni il punteggio
-				int punto=gioco.controllaNumeroPiazzato(_i-1, _j-1, _number);
+				int punto=gioco.controllaNumeroPiazzato(_i, _j, _number);
 				
 
 				//aggiorna il campo di gioco se il giocatore ha messo il valore giusto
 				//ed assegna il punto al giocatore
 				if(punto==1) {
 					giocatore.setPunteggio(giocatore.getPunteggio()+punto);
-					gioco.aggiornaCampoDiGioco(_i-1, _j-1, _number);
+					gioco.aggiornaCampoDiGioco(_i, _j, _number);
 				}
 				
 				//aggiorno il punteggio del giocatore se ha piazzato il numero sbagliato
@@ -206,6 +205,7 @@ public class SudokuGameImpl implements SudokuGame{
 				if(punto==0) {
 					
 				}
+				
 					
 				//aggiorno la lista dei giocatori per il nuovo punteggio
 				gioco.aggiornaListaGiocatori(giocatore);

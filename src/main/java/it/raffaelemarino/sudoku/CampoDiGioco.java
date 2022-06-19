@@ -32,52 +32,39 @@ public class CampoDiGioco implements Serializable{
 
 
 	public ArrayList<Giocatore> getGiocatori() {
-		return giocatori;
+		return this.giocatori;
 	}
 
 	public String stampaListaGiocatori() {
 		String s="";
-		for(Giocatore g:giocatori) {
+		for(Giocatore g: this.giocatori) {
 			s+=g.getNick();
 		}
 		return s;
 	}
-	
-	public void setGiocatori(ArrayList<Giocatore> giocatori) {
-		this.giocatori = giocatori;
+
+	public void setGiocatori(ArrayList<Giocatore> giocatorii) {
+		this.giocatori = giocatorii;
 	}
 
 	public Integer[][] getCampo_di_gioco_completo() {
 		return this.campo_di_gioco_completo;
 	}
 
-	public void setCampo_di_gioco_completo(Integer[][] campo_di_gioco_completo) {
-		this.campo_di_gioco_completo = campo_di_gioco_completo;
+	public void setCampo_di_gioco_completo(Integer[][] campo_completo) {
+		this.campo_di_gioco_completo = campo_completo;
 	}
 
 	public Integer[][] getCampo_di_gioco_iniziale() {
-
 		return this.campo_di_gioco_iniziale;
-
-		
-	/*
-		Integer[][] temp = new Integer[9][9];
-
-		for(int i=0; i<9; i++) {
-			temp[i] = this.campo_di_gioco_iniziale[i].clone();
-		}
-
-		return temp;
-*/
 	}
 
-	public void setCampo_di_gioco_iniziale(Integer[][] campo_di_gioco_iniziale) {
-		this.campo_di_gioco_iniziale = campo_di_gioco_iniziale;
+	public void setCampo_di_gioco_iniziale(Integer[][] campo_iniziale) {
+		this.campo_di_gioco_iniziale = campo_iniziale;
 	}
 
 	private Integer[][] generaCampoDiGioco() {
 		Integer[][] sudoku = new Integer[9][9];
-
 
 		//creaa il seguente campo di gioco
 		/*    1  2  3  4  5  6  7  8  9
@@ -122,7 +109,11 @@ public class CampoDiGioco implements Serializable{
 	}
 
 	private Integer[][] generaGiocoIniziale(Integer[][] sudoku) {//DA FARE
-		Integer[][] campo_iniziale = sudoku;
+		
+		Integer[][] campo_iniziale = new Integer[9][9];
+		
+		for(int i=0; i<9; i++)
+			campo_iniziale[i] = sudoku[i].clone(); 
 
 		//tolgo alcuni numeri al campo di gioco per poterlo dare ai giocatori
 		//i numeri nel sudoku vanno da 1 a 9, piazzo uno 0 dove devo "nascondere il numero"
@@ -138,8 +129,8 @@ public class CampoDiGioco implements Serializable{
 
 			}
 		}
-
-
+		
+		
 		return campo_iniziale;
 	}
 
@@ -157,32 +148,54 @@ public class CampoDiGioco implements Serializable{
 
 		return s;
 	}
+	
+	public String stampaSudoku() {
+		String s="";
+
+
+		for(int i =0;i<9;i++) {
+			for(int j =0;j<9;j++) {
+				s+=" "+this.campo_di_gioco_completo[i][j];
+			}
+			s+="\n";
+
+		}
+
+		return s;
+	}
 
 	public int controllaNumeroPiazzato(int i,int j,int valore) {
 
-		//se è corretto e il valore nel campo di gioco dove giocano i giocatori è 0 allora dai 1 punto
-		if(campo_di_gioco_completo[i][j]==valore && campo_di_gioco_iniziale[i][j]==0) {
-			return 1;
-			}
-		
-		//se è corretto il valore ma nel campo di gioco dove giocano i giocatori c'era già il valore allora dai 0 punti
-		if(campo_di_gioco_completo[i][j]==valore && campo_di_gioco_iniziale[i][j]==valore) {
-			return 0;
-			}
+		int riga = i-1;
+		int colonna = j-1;
 
-		//-1 altrimenti, vuol dire che non era corretto il valore
-		return -1;
+		//se è corretto e il valore nel campo di gioco dove giocano i giocatori è 0 allora dai 1 punto
+		if(this.campo_di_gioco_completo[riga][colonna]==valore && this.campo_di_gioco_iniziale[riga][colonna]==0) {
+			return 1;
+			
+		}else  if(this.campo_di_gioco_completo[riga][colonna]==valore && this.campo_di_gioco_iniziale[riga][colonna]==valore) {
+			//se è corretto il valore ma nel campo di gioco dove giocano i giocatori c'era già il valore allora dai 0 punti
+			return 0;
+			
+		}else {
+			//-1 altrimenti, vuol dire che non era corretto il valore
+			return -1;
+			
+		}
+
+
 	}
 
 	public void aggiornaCampoDiGioco(int i,int j,int valore) {
 
-		campo_di_gioco_iniziale[i][j]=valore;
+		this.campo_di_gioco_iniziale[i-1][j-1]=valore;
+		
 	}
 
 
 	public boolean isPeerInGame(PeerAddress peer) {
 
-		for(Giocatore g: giocatori){
+		for(Giocatore g: this.giocatori){
 			if(g.getPeerAddres().equals(peer))
 				return true;
 		}
@@ -191,7 +204,7 @@ public class CampoDiGioco implements Serializable{
 
 	public boolean isNickInGame(String nick) {
 
-		for(Giocatore g: giocatori) {
+		for(Giocatore g: this.giocatori) {
 			if(g.getNick().equals(nick))
 				return true;
 		}
@@ -200,7 +213,7 @@ public class CampoDiGioco implements Serializable{
 	}
 
 	public Giocatore getGiocatoreByPeer(PeerAddress peer) {
-		for(Giocatore g: giocatori) {
+		for(Giocatore g: this.giocatori) {
 			if(g.getPeerAddres().equals(peer))
 				return g;
 		}
@@ -229,7 +242,7 @@ public class CampoDiGioco implements Serializable{
 
 		for(int i=0;i<9;i++) {
 			for(int j=0;j<9;j++) {
-				if(campo_di_gioco_iniziale[i][j]==0)
+				if(this.campo_di_gioco_iniziale[i][j]==0)
 					return false;
 			}
 		}
@@ -241,7 +254,7 @@ public class CampoDiGioco implements Serializable{
 
 		String s="";
 
-		for(Giocatore g: giocatori) {
+		for(Giocatore g: this.giocatori) {
 			s+=g.getNick()+" ha punteggio: "+g.getPunteggio() +"\n";
 		}
 

@@ -51,7 +51,6 @@ public class TestSudokuGameImpl {
 		assertNotNull(peer1.placeNumber("Sudoku4", 3, 3, 9));
 	}
 
-	
 	@Test
 	public void testCasePlaceNumberInSamePosition(TestInfo testInfo){
 		assertNotNull(peer1.generateNewSudoku("Sudoku5"));
@@ -70,6 +69,7 @@ public class TestSudokuGameImpl {
 		assertNull(peer2.getSudoku("Sudoku6"));
 	}
 	
+	
 	@Test
 	public void testGetLead(TestInfo testInfo) {
 		assertNotNull(peer1.generateNewSudoku("SudokuLead"));
@@ -79,8 +79,8 @@ public class TestSudokuGameImpl {
 		assertTrue(peer0.join("SudokuLead", "Pippo"));
 		assertNotNull(peer1.placeNumber("SudokuLead", 3, 3, 9)); 
 		assertNotNull(peer2.placeNumber("SudokuLead", 3, 4, 1));
-		assertNotNull(peer2.placeNumber("SudokuLead", 4, 3, 4));
-		assertNotNull(peer2.placeNumber("SudokuLead", 4, 4, 5));
+		assertNotNull(peer3.placeNumber("SudokuLead", 4, 3, 4));
+		assertNotNull(peer0.placeNumber("SudokuLead", 4, 4, 5));
 		assertNotNull(peer1.getLeadboard("SudokuLead"));
 	}
 	
