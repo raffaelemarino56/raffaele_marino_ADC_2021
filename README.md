@@ -108,13 +108,13 @@ ora lancaire i peer:
 Master
 
 ```
-$ docker run -i --rm --name MASTER_PEER -e ID=0 raffaele-marino/sudoku
+$ docker run -i --rm --name MASTER_PEER -e MASTERIP=<MASTER ADDRESS> -e ID=0 sudoku
 ```
 
 Altri
 
 ```
-$ docker run -i --rm --name PEER1 -e ID=1 -e MASTER=<MASTER ADDRESS> raffaele-marino/sudoku
+$ docker run -i --name PEER1 -e ID=1 -e MASTERip=<MASTER ADDRESS> sudoku
 ```
 
 Per controllare l'indirizzo del master usare il comando
