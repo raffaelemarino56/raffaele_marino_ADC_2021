@@ -35,6 +35,14 @@ public class CampoDiGioco implements Serializable{
 		return giocatori;
 	}
 
+	public String stampaListaGiocatori() {
+		String s="";
+		for(Giocatore g:giocatori) {
+			s+=g.getNick();
+		}
+		return s;
+	}
+	
 	public void setGiocatori(ArrayList<Giocatore> giocatori) {
 		this.giocatori = giocatori;
 	}
@@ -143,7 +151,7 @@ public class CampoDiGioco implements Serializable{
 			for(int j =0;j<9;j++) {
 				s+=" "+this.campo_di_gioco_iniziale[i][j];
 			}
-
+			s+="\n";
 
 		}
 
@@ -153,11 +161,14 @@ public class CampoDiGioco implements Serializable{
 	public int controllaNumeroPiazzato(int i,int j,int valore) {
 
 		//se è corretto e il valore nel campo di gioco dove giocano i giocatori è 0 allora dai 1 punto
-		if(this.campo_di_gioco_completo[i][j]==valore && this.campo_di_gioco_iniziale[i][j]==0)
+		if(campo_di_gioco_completo[i][j]==valore && campo_di_gioco_iniziale[i][j]==0) {
 			return 1;
+			}
+		
 		//se è corretto il valore ma nel campo di gioco dove giocano i giocatori c'era già il valore allora dai 0 punti
-		if(this.campo_di_gioco_completo[i][j]==valore && this.campo_di_gioco_iniziale[i][j]==valore)
+		if(campo_di_gioco_completo[i][j]==valore && campo_di_gioco_iniziale[i][j]==valore) {
 			return 0;
+			}
 
 		//-1 altrimenti, vuol dire che non era corretto il valore
 		return -1;
@@ -165,13 +176,13 @@ public class CampoDiGioco implements Serializable{
 
 	public void aggiornaCampoDiGioco(int i,int j,int valore) {
 
-		this.campo_di_gioco_iniziale[i][j]=valore;
+		campo_di_gioco_iniziale[i][j]=valore;
 	}
 
 
 	public boolean isPeerInGame(PeerAddress peer) {
 
-		for(Giocatore g: this.giocatori){
+		for(Giocatore g: giocatori){
 			if(g.getPeerAddres().equals(peer))
 				return true;
 		}
@@ -180,7 +191,7 @@ public class CampoDiGioco implements Serializable{
 
 	public boolean isNickInGame(String nick) {
 
-		for(Giocatore g: this.giocatori) {
+		for(Giocatore g: giocatori) {
 			if(g.getNick().equals(nick))
 				return true;
 		}
@@ -189,8 +200,8 @@ public class CampoDiGioco implements Serializable{
 	}
 
 	public Giocatore getGiocatoreByPeer(PeerAddress peer) {
-		for(Giocatore g: this.giocatori) {
-			if(g.getPeerAddres()==peer)
+		for(Giocatore g: giocatori) {
+			if(g.getPeerAddres().equals(peer))
 				return g;
 		}
 
@@ -218,7 +229,7 @@ public class CampoDiGioco implements Serializable{
 
 		for(int i=0;i<9;i++) {
 			for(int j=0;j<9;j++) {
-				if(this.campo_di_gioco_completo[i][j]!=this.campo_di_gioco_iniziale[i][j])
+				if(campo_di_gioco_iniziale[i][j]==0)
 					return false;
 			}
 		}
@@ -230,8 +241,9 @@ public class CampoDiGioco implements Serializable{
 
 		String s="";
 
-		for(Giocatore g: this.giocatori)
+		for(Giocatore g: giocatori) {
 			s+=g.getNick()+" ha punteggio: "+g.getPunteggio() +"\n";
+		}
 
 		return s;
 	}

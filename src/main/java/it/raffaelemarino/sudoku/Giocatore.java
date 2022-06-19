@@ -78,8 +78,10 @@ public class Giocatore implements Serializable{
 		
 		for(int i =0;i<9;i++) {
 			for(int j=0;j<9;j++) {
-				System.out.println(" "+this.giocoGiocatore[i][j]);
+				System.out.print(" "+this.giocoGiocatore[i][j]);
 			}
+			
+			System.out.println("\n");
 		}
 		
 		return s;
