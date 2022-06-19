@@ -237,7 +237,7 @@ public class SudokuGameImpl implements SudokuGame{
 
 				//se il giocatore partecipa alla partita allora può vedere la lead board altrimenti no
 				if(gioco.isPeerInGame(this.peer.peerAddress())) {
-
+					
 					return gioco.getScoreboard();
 
 
@@ -293,10 +293,14 @@ public class SudokuGameImpl implements SudokuGame{
 				CampoDiGioco gioco = (CampoDiGioco) futureGet.dataMap().values().iterator().next().object();
 
 				Giocatore g = gioco.getGiocatoreByPeer(this.peer.peerAddress());
-
+				
 				if(gioco.isPeerInGame(this.peer.peerAddress())) {
+					
 					gioco.rimuoviGiocatore(g);
+					
 					g.removeGiocoDaGiocatore(gioco);
+					
+					System.out.println("ciao");
 					//aggiorno lo stato della partita
 					_dht.put(Number160.createHash(_game_name)).data(new Data(gioco)).start().awaitUninterruptibly();
 

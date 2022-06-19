@@ -47,8 +47,8 @@ public class TestSudokuGameImpl {
 	@Test
 	public void testCasePlaceNumber(TestInfo testInfo){
 		assertNotNull(peer1.generateNewSudoku("Sudoku4"));
-		assertTrue(peer1.join("Sudoku4", "Raffaele"));
-		assertNotNull(peer1.placeNumber("Sudoku4", 3, 4, 7));
+		assertTrue(peer1.join("Sudoku4", "Raffaele")); 
+		assertNotNull(peer1.placeNumber("Sudoku4", 3, 4, 7)); // da aggiustare
 		
 	}
 	
@@ -57,7 +57,7 @@ public class TestSudokuGameImpl {
 		assertNotNull(peer1.generateNewSudoku("Sudoku5"));
 		assertTrue(peer1.join("Sudoku5", "Raffaele"));
 		assertTrue(peer2.join("Sudoku5", "Gerry"));
-		assertNotNull(peer1.placeNumber("Sudoku5", 3, 4, 7));
+		assertNotNull(peer1.placeNumber("Sudoku5", 3, 4, 7)); //da aggiustare
 		assertNotNull(peer2.placeNumber("Sudoku5", 3, 4, 7));
 	}
 	
@@ -66,13 +66,13 @@ public class TestSudokuGameImpl {
 	public void testGetSudoku(TestInfo testInfo){
 		assertNotNull(peer1.generateNewSudoku("Sudoku6"));
 		assertTrue(peer1.join("Sudoku6", "Raffaele"));
-		assertNotNull(peer1.getSudoku("Sudoku6"));
+		assertNotNull(peer1.getSudoku("Sudoku6")); //da aggiustare
 		assertNull(peer2.getSudoku("Sudoku6"));
 	}
 	
 	@Test
 	public void testGetLead(TestInfo testInfo) {
-		assertNotNull(peer1.getLeadboard("Sudoku5"));
+		assertNotNull(peer1.getLeadboard("Sudoku5")); //da aggiustare
 	}
 	
 	@Test
@@ -82,7 +82,7 @@ public class TestSudokuGameImpl {
 	
 	@Test
 	public void testLeaveGame(TestInfo testInfo) {
-		assertTrue(peer1.leaveGame("Sudoku6"));
+		assertTrue(peer1.leaveGame("Sudoku6")); //da aggiustare (aggiungi controlli)
 		assertFalse(peer0.leaveGame("Sudoku6"));
 	}
 	

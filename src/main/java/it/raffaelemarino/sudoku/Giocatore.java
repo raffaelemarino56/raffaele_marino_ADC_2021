@@ -101,6 +101,8 @@ public class Giocatore implements Serializable{
 	}
 
 	public void removeGiocoDaGiocatore(CampoDiGioco g) {
+		
 		giochi.remove(g);
+		
 	}
 }
