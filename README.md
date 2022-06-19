@@ -114,7 +114,7 @@ $ docker run -i --rm --name MASTER_PEER -e MASTERIP=<MASTER ADDRESS> -e ID=0 sud
 Altri
 
 ```
-$ docker run -i --name PEER1 -e ID=1 -e MASTERip=<MASTER ADDRESS> sudoku
+$ docker run -i --name PEER1 -e ID=1 -e MASTERIP=<MASTER ADDRESS> sudoku
 ```
 
 Per controllare l'indirizzo del master usare il comando
