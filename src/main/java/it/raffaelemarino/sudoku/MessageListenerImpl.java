@@ -1,6 +1,5 @@
 package it.raffaelemarino.sudoku;
 
-import java.util.ArrayList;
 
 import org.beryx.textio.TextIO;
 import org.beryx.textio.TextIoFactory;
@@ -18,7 +17,7 @@ public class MessageListenerImpl implements MessageListener{
 	public Object parseMessage(Object obj) {
 		
 		TextIO textIO = TextIoFactory.getTextIO();
-		TextTerminal terminal = textIO.getTextTerminal();
+		TextTerminal<?> terminal = textIO.getTextTerminal();
 		terminal.printf("\n"+peerid+"] (Direct Message Received) "+obj+"\n\n");
 		return "success";
 	}

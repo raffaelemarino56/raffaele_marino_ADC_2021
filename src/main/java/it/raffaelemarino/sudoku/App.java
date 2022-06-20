@@ -1,13 +1,11 @@
 package it.raffaelemarino.sudoku;
 
-import java.io.IOException;
 import java.util.Random;
-
-import javax.print.attribute.standard.PrinterInfo;
 
 import org.beryx.textio.TextIO;
 import org.beryx.textio.TextIoFactory;
 import org.beryx.textio.TextTerminal;
+
 import org.kohsuke.args4j.CmdLineException;
 import org.kohsuke.args4j.CmdLineParser;
 import org.kohsuke.args4j.Option;
@@ -38,9 +36,8 @@ public class App {
 	private static int id;
 
 	public static void main(String[] args) throws Exception {
-
-		App example = new App();
-		final CmdLineParser parser = new CmdLineParser(example);  
+		
+		final CmdLineParser parser = new CmdLineParser(new App());  
 
 		try  
 		{ 
@@ -48,8 +45,9 @@ public class App {
 			int scelta=0;
 
 			parser.parseArgument(args);  
+			
 			TextIO textIO = TextIoFactory.getTextIO();
-			TextTerminal terminal = textIO.getTextTerminal();
+			TextTerminal<?> terminal = textIO.getTextTerminal();
 			SudokuGameImpl peer = new SudokuGameImpl(id,master, new MessageListenerImpl(id));
 
 			terminal.printf("\nStaring peer id: %d on master node: %s\n", id, master);
@@ -207,7 +205,7 @@ public class App {
 	}
 
 	
-	public static void printMenu(TextTerminal terminal) {
+	public static void printMenu(TextTerminal<?> terminal) {
 		
 		terminal.printf("\n1 - CREA GIOCO\n");
 		terminal.printf("\n2 - ENTRA IN UNA PARTITA\n");
