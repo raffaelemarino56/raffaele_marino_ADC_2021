@@ -1,5 +1,6 @@
 package it.raffaelemarino.sudoku;
 
+import java.io.IOException;
 import java.util.Random;
 
 import org.beryx.textio.TextIO;
@@ -35,9 +36,11 @@ public class App {
 	@Option(name="-id", aliases="--identifierpeer", usage="the unique identifier for this peer", required=true)
 	private static int id;
 
-	public static void main(String[] args) throws Exception {
+	public static void main(String[] args){
 		
-		final CmdLineParser parser = new CmdLineParser(new App());  
+		final CmdLineParser parser = new CmdLineParser(new App()); 
+		TextIO textIO = TextIoFactory.getTextIO();
+		TextTerminal<?> terminal = textIO.getTextTerminal();
 
 		try  
 		{ 
@@ -45,9 +48,7 @@ public class App {
 			int scelta=0;
 
 			parser.parseArgument(args);  
-			
-			TextIO textIO = TextIoFactory.getTextIO();
-			TextTerminal<?> terminal = textIO.getTextTerminal();
+
 			SudokuGameImpl peer = new SudokuGameImpl(id,master, new MessageListenerImpl(id));
 
 			terminal.printf("\nStaring peer id: %d on master node: %s\n", id, master);
@@ -199,7 +200,16 @@ public class App {
 		catch (CmdLineException clEx)  
 		{  
 			System.err.println("ERROR: Unable to parse command-line options: " + clEx);  
-		}  
+		}  catch (IOException e) {
+			//errore bootstrap P2P
+			e.printStackTrace();
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}finally {
+			terminal.abort();
+			System.exit(0);
+		}
 
 
 	}
