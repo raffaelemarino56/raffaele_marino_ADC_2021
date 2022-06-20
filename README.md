@@ -100,7 +100,7 @@ Viene utilizzato un docker per poter lanviare facilmente il progetto.
 Usando il Dockerfile nella repo avviare la build traminte il comando:
 
 ```
-$ docker build --no-cache -t sudoku .
+$ docker build --no-cache -t raffaelemarinosudoku .
 ```
 
 ora lancaire i peer:
@@ -108,13 +108,13 @@ ora lancaire i peer:
 Master
 
 ```
-$ docker run -i --rm --name MASTER_PEER -e MASTERIP=<MASTER ADDRESS> -e ID=0 sudoku
+$ docker run -i --rm --name MASTER_PEER -e MASTERIP=<MASTER ADDRESS> -e ID=0 raffaelemarinosudoku
 ```
 
 Altri
 
 ```
-$ docker run -i --name PEER1 -e ID=1 -e MASTERIP=<MASTER ADDRESS> sudoku
+$ docker run -i --name PEER1 -e ID=1 -e MASTERIP=<MASTER ADDRESS> raffaelemarinosudoku
 ```
 
 Per controllare l'indirizzo del master usare il comando
