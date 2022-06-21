@@ -91,9 +91,9 @@ public class SudokuGameImpl implements SudokuGame{
 				gioco = (CampoDiGioco) futureGet.dataMap().values().iterator().next().object();
 				
 
-				//controllo se sono gi‡ in gioco o gi‡ esiste quel nickcanme
-				//potrebbe capitare un nuovo gioco con lo stesso nome di uno precedente gi‡ terminato, al quale il giocatore aveva gi‡ fatto
-				//accesso, ecco perchË Ë bene controllare se nel gioco il giocatore Ë presente
+				//controllo se sono gi√† in gioco o gi√† esiste quel nickcanme
+				//potrebbe capitare un nuovo gioco con lo stesso nome di uno precedente gi√† terminato, al quale il giocatore aveva gi√† fatto
+				//accesso, ecco perch√® √® bene controllare se nel gioco il giocatore √® presente
 				//avendo il giocatore una lista dei giochi ai quali ha partecipato potrebbe confondere
 				
 				if(gioco.isNickInGame(_nickname) || gioco.isPeerInGame(this.peer.peerAddress())) {return false;} 
@@ -107,7 +107,7 @@ public class SudokuGameImpl implements SudokuGame{
 				giocatore.setPunteggio(0);
 				giocatore.setGiocoGiocatore(gioco.getCampo_di_gioco_iniziale());
 				
-				//devo aggiungere questo gioco alla lista dei giochi a cui il giocatore partecipa, perchË puÚ partecipare a pi˘ giochi
+				//devo aggiungere questo gioco alla lista dei giochi a cui il giocatore partecipa, perch√® pu√≤ partecipare a pi√π giochi
 				giocatore.addGiocoAGiocatore(gioco);
 				
 								
@@ -121,7 +121,7 @@ public class SudokuGameImpl implements SudokuGame{
 
 				//notifico a tutti i giocatori in quella partita l'accesso del nuovo giocatore
 				for(Giocatore g : gioco.getGiocatori()) {
-					_dht.peer().sendDirect(g.getPeerAddres()).object("giocatore" + _nickname + "Ë entrato in partita").start().awaitUninterruptibly();
+					_dht.peer().sendDirect(g.getPeerAddres()).object("giocatore" + _nickname + "√® entrato in partita").start().awaitUninterruptibly();
 				}
 
 				return true;
@@ -218,9 +218,9 @@ public class SudokuGameImpl implements SudokuGame{
 				for(Giocatore g : gioco.getGiocatori()) {
 					_dht.peer().sendDirect(g.getPeerAddres()).object("giocatore" + giocatore.getNick() + "ha messo il numero" + _number +" in posizione i:"+_i+" j:"+_j+"ed ha punteggio:"+giocatore.getPunteggio()).start().awaitUninterruptibly();
 
-					//se il gioco Ë finito lo notifico a tutti e mostro la scoreboard
+					//se il gioco √® finito lo notifico a tutti e mostro la scoreboard
 					if(gioco.isFinish()) {
-						_dht.peer().sendDirect(g.getPeerAddres()).object("il gioco Ë finito!!!, questa Ë la scoreboard: "+gioco.getScoreboard()).start().awaitUninterruptibly();
+						_dht.peer().sendDirect(g.getPeerAddres()).object("il gioco √® finito!!!, questa √® la scoreboard: "+gioco.getScoreboard()).start().awaitUninterruptibly();
 					}
 				}
 				return punto;
@@ -247,7 +247,7 @@ public class SudokuGameImpl implements SudokuGame{
 				CampoDiGioco gioco = (CampoDiGioco) futureGet.dataMap().values().iterator().next().object();
 				
 
-				//se il giocatore partecipa alla partita allora puÚ vedere la lead board altrimenti no
+				//se il giocatore partecipa alla partita allora pu√≤ vedere la lead board altrimenti no
 				if(gioco.isPeerInGame(this.peer.peerAddress())) {
 					return gioco.getScoreboard();
 
@@ -278,14 +278,14 @@ public class SudokuGameImpl implements SudokuGame{
 				if(gioco.isPeerInGame(this.peer.peerAddress())) {
 					
 					if(gioco.isFinish()) {
-						//sei in gioco ed Ë terminato
+						//sei in gioco ed √® terminato
 						return 1;
 					}else {
-						//sei in gioco ma non Ë terimnato
+						//sei in gioco ma non √® terimnato
 						return 2;
 					}
 				}else {
-					//non sei in gioco non puoi sapere se il gioco Ë terminato o meno
+					//non sei in gioco non puoi sapere se il gioco √® terminato o meno
 					return 0;
 				}
 
@@ -294,7 +294,7 @@ public class SudokuGameImpl implements SudokuGame{
 		}catch (Exception e) {
 			e.printStackTrace();
 		}
-		//c'Ë stato un errore
+		//c'√® stato un errore
 		return -1;
 	}
 
@@ -347,7 +347,7 @@ public class SudokuGameImpl implements SudokuGame{
 	public boolean leaveNetwoks() {
 
 		_dht.peer().announceShutdown().start().awaitUninterruptibly();
-		return true;
+		return peer.shutdown().awaitUninterruptibly().isSuccess();
 
 	}
 
