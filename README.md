@@ -90,7 +90,7 @@ Di seguito una descrizione delle classi nel progetto:
     <tr><td>_testCasePlaceNumberInSamePosition_</td><td>Piazzo lo stesso valore in un sudoku aspettandomi che uno dei due sia pari a 0 </td></tr>
     <tr><td>_testGetSudoku_</td><td>Mi recupero le informazioni di una partita alla quale sono entrato, successivamente provo a far fare la stessa cosa a un altro peer che non era in partita aspettandomi null come risultato </td></tr>
     <tr><td>_testLeaveGame_</td><td>Faccio il test del leave game con due peer, il primo che era in partita e la lascia, il secondo non era in partita e mi aspetto null come risultato </td></tr>
-    <tr><td>_testLeaveNetwork_</td><td>leave della network </td></tr>
+    <tr><td>_testLeaveAllGame_</td><td>leave da tutti i giochi e della network (con tag AfterAll perchè deve essere fatto alla fine di tutti gli altri test)</td></tr>
 </table>
 
 
