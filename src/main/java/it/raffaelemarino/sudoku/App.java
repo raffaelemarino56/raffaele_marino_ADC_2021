@@ -15,18 +15,18 @@ import org.kohsuke.args4j.Option;
 public class App {
 
 	/*
-		 ogni giocatore pu√≤ mettere un numero nel gioco:
-			- se non √® stato piazzato allora prende 1 punto
-			- se √® stato piazzato prende 0 punti
+		 ogni giocatore puÚ mettere un numero nel gioco:
+			- se non Ë stato piazzato allora prende 1 punto
+			- se Ë stato piazzato prende 0 punti
 			- altrimenti -1 (se sbaglia numero)
 
 		matrice 9x9
 
-		tutti i giocatori sono informati quando un giocatore incrementa il suo punteggio e quando il gioco √® finito (in quella partita)
+		tutti i giocatori sono informati quando un giocatore incrementa il suo punteggio e quando il gioco Ë finito (in quella partita)
 
 		i giocatori possono generare delle partite indentificate da un nome
 
-		si pu√≤ entrare in un gioco con un nickname
+		si puÚ entrare in un gioco con un nickname
 
 		dato l'indice della matrice piazzare un numero
 	 */
@@ -68,7 +68,7 @@ public class App {
 					nome_gioco = textIO.newStringInputReader().withDefaultValue("sudoku"+random.nextInt()).read("Game name");
 					Integer[][] nuovo_gioco = peer.generateNewSudoku(nome_gioco);
 					if(nuovo_gioco==null)
-						System.out.println("il gioco con nome: "+ nome_gioco +" gi√† esiste");
+						System.out.println("il gioco con nome: "+ nome_gioco +" gi‡ esiste");
 					break;
 
 				case 2:
@@ -92,11 +92,11 @@ public class App {
 					break;
 
 				case 3:
-					
-					
-					
+
+
+
 					nome_gioco = textIO.newStringInputReader().read("Game name");
-					
+
 					Integer[][] campo_di_gioco2 = peer.getSudoku(nome_gioco);
 
 					for(int i2=0; i2<9;i2++) {
@@ -105,7 +105,7 @@ public class App {
 						}
 						System.out.println();
 					}
-					
+
 					int i = textIO.newIntInputReader().withMinVal(1).withMaxVal(9).read("valore i (riga)");
 					int j = textIO.newIntInputReader().withMinVal(1).withMaxVal(9).read("valore j (colonna)");
 					int numero = textIO.newIntInputReader().withMinVal(1).withMaxVal(9).read("valore");
@@ -116,7 +116,7 @@ public class App {
 						break;
 
 					case 0:
-						System.out.println("valore corretto ma gi√† inserito, non perdi niente");
+						System.out.println("valore corretto ma gi‡ inserito, non perdi niente");
 						break;
 
 					case -1:
@@ -183,13 +183,13 @@ public class App {
 						System.out.println("non sei in partita!!! entra per scoprire l ostato della partita!");
 						break;
 					case 1:
-						System.out.println("il gioco "+nome_gioco+" √® terminato");
+						System.out.println("il gioco "+nome_gioco+" Ë terminato");
 						break;
 					case 2:
-						System.out.println("il gioco "+nome_gioco+" non √® ancora terminato, fai la tua mossa!");
+						System.out.println("il gioco "+nome_gioco+" non Ë ancora terminato, fai la tua mossa!");
 						break;
 					default:
-						System.out.println("si √® verificato un errore");
+						System.out.println("si Ë verificato un errore");
 						break;
 
 					}
@@ -236,7 +236,7 @@ public class App {
 		terminal.printf("\n4 - VISUALIZZA STATO PARTITA\n");
 		terminal.printf("\n5 - ESCI DA GIOCO\n");
 		terminal.printf("\n6 - ESCI DA NETWORK\n");
-		//funzioni in pi√π rispetto alla traccia
+		//funzioni in pi˘ rispetto alla traccia
 		terminal.printf("\n7 - VISUALIZZA LEAD BOARD\n");
 		terminal.printf("\n8 - CONTROLLA SE UN GIOCO E' TERMINATO\n");
 		terminal.printf("\n9 - ESCI DA TUTTE LE PARTITE E DALLA NETWORK\n");
