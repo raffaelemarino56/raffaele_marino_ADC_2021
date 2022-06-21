@@ -9,7 +9,6 @@ public class prova {
 	//e dal sudoku intero togliere qualche numero in modo randomico
 
 	public static void main(String[] args) {
-		// TODO Auto-generated method stub
 
 		int k=0;
 		int fillCount =1;

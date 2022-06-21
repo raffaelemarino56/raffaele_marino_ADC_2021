@@ -132,7 +132,7 @@ public class SudokuGameImpl implements SudokuGame{
 
 
 		}catch (Exception e) {
-			// TODO: handle exception
+			System.out.println(e);
 		}
 
 		return false;
@@ -160,7 +160,7 @@ public class SudokuGameImpl implements SudokuGame{
 
 			}
 		}catch (Exception e) {
-			// TODO: handle exception
+			System.out.println(e);
 		}
 
 		return null;
@@ -226,7 +226,7 @@ public class SudokuGameImpl implements SudokuGame{
 				return punto;
 			}
 		}catch(Exception e) {
-			// TODO: handle exception
+			System.out.println(e);
 
 		}
 		return null;
@@ -272,6 +272,7 @@ public class SudokuGameImpl implements SudokuGame{
 		try {
 			FutureGet futureGet = _dht.get(Number160.createHash(_game_name)).start().awaitUninterruptibly();
 			if (futureGet.isSuccess() && !futureGet.isEmpty()) {
+				
 				CampoDiGioco gioco = (CampoDiGioco) futureGet.dataMap().values().iterator().next().object();
 
 				if(gioco.isPeerInGame(this.peer.peerAddress())) {
@@ -279,6 +280,9 @@ public class SudokuGameImpl implements SudokuGame{
 					if(gioco.isFinish()) {
 						//sei in gioco ed è terminato
 						return 1;
+					}else {
+						//sei in gioco ma non è terimnato
+						return 2;
 					}
 				}else {
 					//non sei in gioco non puoi sapere se il gioco è terminato o meno
