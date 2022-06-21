@@ -11,21 +11,22 @@ import org.kohsuke.args4j.CmdLineException;
 import org.kohsuke.args4j.CmdLineParser;
 import org.kohsuke.args4j.Option;
 
+
 public class App {
 
 	/*
-		 ogni giocatore puÃ² mettere un numero nel gioco:
-			- se non Ã¨ stato piazzato allora prende 1 punto
-			- se Ã¨ stato piazzato prende 0 punti
+		 ogni giocatore può mettere un numero nel gioco:
+			- se non è stato piazzato allora prende 1 punto
+			- se è stato piazzato prende 0 punti
 			- altrimenti -1 (se sbaglia numero)
 
 		matrice 9x9
 
-		tutti i giocatori sono informati quando un giocatore incrementa il suo punteggio e quando il gioco Ã¨ finito (in quella partita)
+		tutti i giocatori sono informati quando un giocatore incrementa il suo punteggio e quando il gioco è finito (in quella partita)
 
 		i giocatori possono generare delle partite indentificate da un nome
 
-		si puÃ² entrare in un gioco con un nickname
+		si può entrare in un gioco con un nickname
 
 		dato l'indice della matrice piazzare un numero
 	 */
@@ -37,7 +38,7 @@ public class App {
 	private static int id;
 
 	public static void main(String[] args){
-		
+
 		CmdLineParser parser = new CmdLineParser(new App()); 
 		TextIO textIO = TextIoFactory.getTextIO();
 		TextTerminal<?> terminal = textIO.getTextTerminal();
@@ -47,7 +48,7 @@ public class App {
 
 			int scelta=0;
 
-			parser.parseArgument(args);  
+			parser.parseArgument(args);
 
 			SudokuGameImpl peer = new SudokuGameImpl(id,master, new MessageListenerImpl(id));
 
@@ -67,7 +68,7 @@ public class App {
 					nome_gioco = textIO.newStringInputReader().withDefaultValue("sudoku"+random.nextInt()).read("Game name");
 					Integer[][] nuovo_gioco = peer.generateNewSudoku(nome_gioco);
 					if(nuovo_gioco==null)
-						System.out.println("il gioco con nome: "+ nome_gioco +" giÃ  esiste");
+						System.out.println("il gioco con nome: "+ nome_gioco +" già esiste");
 					break;
 
 				case 2:
@@ -91,7 +92,20 @@ public class App {
 					break;
 
 				case 3:
+					
+					
+					
 					nome_gioco = textIO.newStringInputReader().read("Game name");
+					
+					Integer[][] campo_di_gioco2 = peer.getSudoku(nome_gioco);
+
+					for(int i2=0; i2<9;i2++) {
+						for(int j2=0;j2<9;j2++) {
+							System.out.print(campo_di_gioco2[i2][j2]+"   ");
+						}
+						System.out.println();
+					}
+					
 					int i = textIO.newIntInputReader().withMinVal(1).withMaxVal(9).read("valore i (riga)");
 					int j = textIO.newIntInputReader().withMinVal(1).withMaxVal(9).read("valore j (colonna)");
 					int numero = textIO.newIntInputReader().withMinVal(1).withMaxVal(9).read("valore");
@@ -102,7 +116,7 @@ public class App {
 						break;
 
 					case 0:
-						System.out.println("valore corretto ma giÃ  inserito, non perdi niente");
+						System.out.println("valore corretto ma già inserito, non perdi niente");
 						break;
 
 					case -1:
@@ -121,11 +135,11 @@ public class App {
 				case 4:
 					nome_gioco = textIO.newStringInputReader().read("Game name");
 
-					Integer[][] campo_di_gioco = peer.getSudoku(nome_gioco);
+					Integer[][] campo_di_gioco1 = peer.getSudoku(nome_gioco);
 
 					for(int i1=0; i1<9;i1++) {
 						for(int j1=0;j1<9;j1++) {
-							System.out.print(campo_di_gioco[i1][j1]+"   ");
+							System.out.print(campo_di_gioco1[i1][j1]+"   ");
 						}
 						System.out.println();
 					}
@@ -158,30 +172,30 @@ public class App {
 
 
 					break;
-				
-					
+
+
 				case 8:
 
 					nome_gioco = textIO.newStringInputReader().read("Game name");
-					
+
 					switch(peer.isTeerminated(nome_gioco)) {
 					case 0:
 						System.out.println("non sei in partita!!! entra per scoprire l ostato della partita!");
 						break;
 					case 1:
-						System.out.println("il gioco "+nome_gioco+" Ã¨ terminato");
+						System.out.println("il gioco "+nome_gioco+" è terminato");
 						break;
 					case -1:
-						System.out.println("si Ã¨ verificato un errore");
+						System.out.println("si è verificato un errore");
 						break;
 					default:
-						System.out.println("il gioco "+nome_gioco+" non Ã¨ ancora terminato, fai la tua mossa!");
+						System.out.println("il gioco "+nome_gioco+" non è ancora terminato, fai la tua mossa!");
 						break;
-					
+
 					}
-					
+
 					break;
-					
+
 				case 9:
 
 
@@ -204,7 +218,6 @@ public class App {
 			//errore bootstrap P2P
 			e.printStackTrace();
 		} catch (Exception e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}finally {
 			terminal.abort();
@@ -214,16 +227,16 @@ public class App {
 
 	}
 
-	
+
 	public static void printMenu(TextTerminal<?> terminal) {
-		
+
 		terminal.printf("\n1 - CREA GIOCO\n");
 		terminal.printf("\n2 - ENTRA IN UNA PARTITA\n");
 		terminal.printf("\n3 - PIAZZA NUMERO\n");
 		terminal.printf("\n4 - VISUALIZZA STATO PARTITA\n");
 		terminal.printf("\n5 - ESCI DA GIOCO\n");
 		terminal.printf("\n6 - ESCI DA NETWORK\n");
-		//funzioni in piÃ¹ rispetto alla traccia
+		//funzioni in più rispetto alla traccia
 		terminal.printf("\n7 - VISUALIZZA LEAD BOARD\n");
 		terminal.printf("\n8 - CONTROLLA SE UN GIOCO E' TERMINATO\n");
 		terminal.printf("\n9 - ESCI DA TUTTE LE PARTITE E DALLA NETWORK\n");
