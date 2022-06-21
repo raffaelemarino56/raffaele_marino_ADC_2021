@@ -108,13 +108,13 @@ ora lancaire i peer:
 Master
 
 ```
-$ docker run -i --rm --name MASTER_PEER -e MASTERIP=<MASTER ADDRESS> -e ID=0 raffaelemarinosudoku
+$ docker run -i --rm --name MASTER_PEER -e MASTER=<MASTER ADDRESS> -e ID=0 raffaelemarinosudoku
 ```
 
 Altri
 
 ```
-$ docker run -i --name PEER1 -e ID=1 -e MASTERIP=<MASTER ADDRESS> raffaelemarinosudoku
+$ docker run -i --name PEER1 -e MASTER=<MASTER ADDRESS> -e ID=1 raffaelemarinosudoku
 ```
 
 Per controllare l'indirizzo del master usare il comando
