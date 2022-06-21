@@ -100,16 +100,11 @@ public class TestSudokuGameImpl {
 		assertFalse(peer0.leaveGame("SudokuLeave"));
 	}
 	
-	@Test
-	public void testLeaveAllGame(TestInfo testInfo) {
+	@AfterAll
+	public static void testLeaveAllGame(TestInfo testInfo) {
 		assertTrue(peer1.leveAllGames());
 	}
 	
-
-	@Test
-	public void testLeaveNetwork(TestInfo testInfo) {
-		assertTrue(peer0.leaveNetwoks());
-	}
 
 
 }
