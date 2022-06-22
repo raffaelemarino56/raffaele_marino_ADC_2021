@@ -66,6 +66,8 @@ public class SudokuGameImpl implements SudokuGame{
 				
 				//return della matrice che ho creato
 				return gioco.getCampo_di_gioco_iniziale();
+			}else {
+				return null;
 			}
 
 		} catch (Exception e) {
@@ -158,6 +160,8 @@ public class SudokuGameImpl implements SudokuGame{
 				}
 
 
+			}else {
+				return null;
 			}
 		}catch (Exception e) {
 			System.out.println(e);
@@ -224,6 +228,8 @@ public class SudokuGameImpl implements SudokuGame{
 					}
 				}
 				return punto;
+			}else {
+				return null;
 			}
 		}catch(Exception e) {
 			System.out.println(e);
@@ -290,6 +296,8 @@ public class SudokuGameImpl implements SudokuGame{
 				}
 
 
+			}else {
+				return null;
 			}
 		}catch (Exception e) {
 			e.printStackTrace();
@@ -322,6 +330,8 @@ public class SudokuGameImpl implements SudokuGame{
 				}
 
 
+			}else {
+				return false;
 			}
 		}catch (Exception e) {
 			e.printStackTrace();
