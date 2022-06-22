@@ -10,7 +10,7 @@ public class Giocatore implements Serializable{
 
 	private String nick;
 	private PeerAddress peerAddres;
-	private Integer peerID;
+	private int peerID;
 	private Integer punteggio;
 	private Integer[][] giocoGiocatore;
 	private ArrayList<CampoDiGioco> giochi;
@@ -19,7 +19,7 @@ public class Giocatore implements Serializable{
 	};
 
 
-	public Giocatore(String nick, PeerAddress peerAddres, Integer peerID, Integer punteggio, Integer[][] giocoGiocatore) {
+	public Giocatore(String nick, PeerAddress peerAddres, int peerID, Integer punteggio, Integer[][] giocoGiocatore) {
 		this.nick = nick;
 		this.peerAddres = peerAddres;
 		this.peerID = peerID;
@@ -49,7 +49,7 @@ public class Giocatore implements Serializable{
 		return peerID;
 	}
 
-	public void setPeerID(Integer peerID) {
+	public void setPeerID(int peerID) {
 		this.peerID = peerID;
 	}
 
@@ -87,7 +87,7 @@ public class Giocatore implements Serializable{
 		return s;
 	}
 	
-	public void setId(Integer id) {
+	public void setId(int id) {
 		this.peerID=id;
 
 	}
