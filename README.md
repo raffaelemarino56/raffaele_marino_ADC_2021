@@ -114,7 +114,7 @@ $ docker run -i --rm --name MASTER_PEER -e ID=0 raffaelemarinosudoku
 Altri
 
 ```
-$ docker run -i --rm --name PEER1 -e IDENTIFIERPEER=1 -e MASTERIP="127.0.0.1" raffaelemarinosudoku
+$ docker run -i --rm --name PEER1 -e ID=1 -e MASTERIP="172.17.0.2" raffaelemarinosudoku
 ```
 
 Per controllare l'indirizzo del master usare il comando
