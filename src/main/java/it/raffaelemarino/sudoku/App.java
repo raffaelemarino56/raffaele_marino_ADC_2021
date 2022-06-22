@@ -87,6 +87,8 @@ public class App {
 							System.out.println();
 						}
 
+					}else {
+						System.out.println("nome della partita non esistente");
 					}
 
 					break;
@@ -99,35 +101,40 @@ public class App {
 
 					Integer[][] campo_di_gioco2 = peer.getSudoku(nome_gioco);
 
-					for(int i2=0; i2<9;i2++) {
-						for(int j2=0;j2<9;j2++) {
-							System.out.print(campo_di_gioco2[i2][j2]+"   ");
+					if(campo_di_gioco2.equals(null)) {
+						System.out.println("nome gioco non esistente/errato");
+					}else {
+
+						for(int i2=0; i2<9;i2++) {
+							for(int j2=0;j2<9;j2++) {
+								System.out.print(campo_di_gioco2[i2][j2]+"   ");
+							}
+							System.out.println();
 						}
-						System.out.println();
-					}
 
-					int i = textIO.newIntInputReader().withMinVal(1).withMaxVal(9).read("valore i (riga)");
-					int j = textIO.newIntInputReader().withMinVal(1).withMaxVal(9).read("valore j (colonna)");
-					int numero = textIO.newIntInputReader().withMinVal(1).withMaxVal(9).read("valore");
-					Integer punto = peer.placeNumber(nome_gioco, i, j, numero);
-					switch(punto){
-					case 1:
-						System.out.println("corretto, hai guadagnato un punto");
-						break;
+						int i = textIO.newIntInputReader().withMinVal(1).withMaxVal(9).read("valore i (riga)");
+						int j = textIO.newIntInputReader().withMinVal(1).withMaxVal(9).read("valore j (colonna)");
+						int numero = textIO.newIntInputReader().withMinVal(1).withMaxVal(9).read("valore");
+						Integer punto = peer.placeNumber(nome_gioco, i, j, numero);
+						switch(punto){
+						case 1:
+							System.out.println("corretto, hai guadagnato un punto");
+							break;
 
-					case 0:
-						System.out.println("valore corretto ma già inserito, non perdi niente");
-						break;
+						case 0:
+							System.out.println("valore corretto ma già inserito, non perdi niente");
+							break;
 
-					case -1:
-						System.out.println("hai perso un punto");
-						break;
+						case -1:
+							System.out.println("hai perso un punto");
+							break;
 
-					default:
-						System.out.println("error");
-						break;
+						default:
+							System.out.println("error");
+							break;
 
 
+						}
 					}
 
 					break;
@@ -137,13 +144,16 @@ public class App {
 
 					Integer[][] campo_di_gioco1 = peer.getSudoku(nome_gioco);
 
-					for(int i1=0; i1<9;i1++) {
-						for(int j1=0;j1<9;j1++) {
-							System.out.print(campo_di_gioco1[i1][j1]+"   ");
+					if(campo_di_gioco1.equals(null)) {
+						System.out.println("non sei in questa partita");}
+					else {
+						for(int i1=0; i1<9;i1++) {
+							for(int j1=0;j1<9;j1++) {
+								System.out.print(campo_di_gioco1[i1][j1]+"   ");
+							}
+							System.out.println();
 						}
-						System.out.println();
 					}
-
 					break;
 
 				case 5:
