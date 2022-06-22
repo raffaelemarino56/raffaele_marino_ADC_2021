@@ -34,7 +34,7 @@ public class App {
 	@Option(name="-m", aliases="--masterip", usage="the master peer ip address", required=true)
 	private static String master;
 
-	@Option(name="-id", aliases="--identifierpeer", usage="the unique identifier for this peer", required=true)
+	@Option(name="-id", aliases="--id", usage="the unique identifier for this peer", required=true)
 	private static int id;
 
 	public static void main(String[] args){
