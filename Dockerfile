@@ -10,7 +10,7 @@ RUN mvn package
 FROM openjdk:8-jre-alpine
 WORKDIR /app
 ENV ID=0
-ENV MASTER=127.0.0.1
+ENV MASTERIP=127.0.0.1
 COPY --from=1 /app/target/adc-0.0.1-SNAPSHOT-jar-with-dependencies.jar /app
 
 CMD /usr/bin/java -jar adc-0.0.1-SNAPSHOT-jar-with-dependencies.jar -id $ID -m $MASTER
