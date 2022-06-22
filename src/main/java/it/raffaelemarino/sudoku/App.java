@@ -32,7 +32,7 @@ public class App {
 	 */
 
 	@Option(name="-m", aliases="--masterip", usage="the master peer ip address", required=true)
-	private static String master= "127.0.0.1";;
+	private static String master= "127.0.0.1";
 
 	@Option(name="-id", aliases="--id", usage="the unique identifier for this peer", required=true)
 	private static int id;
