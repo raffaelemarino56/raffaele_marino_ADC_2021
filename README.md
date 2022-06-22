@@ -100,7 +100,7 @@ Viene utilizzato un docker per poter lanviare facilmente il progetto.
 Usando il Dockerfile nella repo avviare la build traminte il comando:
 
 ```
-$ docker build --no-cache -t raffaelemarinosudoku .
+$ docker build --rm --no-cache -t raffaelemarinosudoku .
 ```
 
 ora lancaire i peer:
@@ -119,6 +119,6 @@ $ docker run -i --rm --name PEER1 -e IDENTIFIERPEER=1 -e MASTERIP="127.0.0.1" ra
 
 Per controllare l'indirizzo del master usare il comando
 ```
-$ docker inspect
+$ docker inspect <container>
 ```
 
