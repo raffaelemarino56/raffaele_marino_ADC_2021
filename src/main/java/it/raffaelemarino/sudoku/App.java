@@ -101,7 +101,7 @@ public class App {
 
 					Integer[][] campo_di_gioco2 = peer.getSudoku(nome_gioco);
 
-					if(campo_di_gioco2.equals(null)) {
+					if(campo_di_gioco2==null) {
 						System.out.println("nome gioco non esistente/errato");
 					}else {
 
@@ -144,7 +144,7 @@ public class App {
 
 					Integer[][] campo_di_gioco1 = peer.getSudoku(nome_gioco);
 
-					if(campo_di_gioco1.equals(null)) {
+					if(campo_di_gioco1 == null) {
 						System.out.println("non sei in questa partita");}
 					else {
 						for(int i1=0; i1<9;i1++) {
@@ -174,7 +174,7 @@ public class App {
 
 					nome_gioco = textIO.newStringInputReader().read("Game name");
 					String s = peer.getLeadboard(nome_gioco);
-					if(s.equals(null)) {
+					if(s == null) {
 						System.out.println("Non sei un giocatore che partecipa a questa partita");
 					}else {
 						System.out.println(s);
