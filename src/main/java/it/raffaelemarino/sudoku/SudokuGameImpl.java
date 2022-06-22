@@ -297,7 +297,7 @@ public class SudokuGameImpl implements SudokuGame{
 
 
 			}else {
-				return null;
+				return 0;
 			}
 		}catch (Exception e) {
 			e.printStackTrace();

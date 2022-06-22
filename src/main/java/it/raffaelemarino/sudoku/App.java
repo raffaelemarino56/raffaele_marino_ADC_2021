@@ -190,7 +190,7 @@ public class App {
 
 					switch(peer.isTeerminated(nome_gioco)) {
 					case 0:
-						System.out.println("non sei in partita!!! entra per scoprire l ostato della partita!");
+						System.out.println("non sei in partita/partita non esite!!! entra per scoprire lo stato della partita!");
 						break;
 					case 1:
 						System.out.println("il gioco "+nome_gioco+" è terminato");
