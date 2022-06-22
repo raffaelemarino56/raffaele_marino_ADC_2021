@@ -123,7 +123,7 @@ public class SudokuGameImpl implements SudokuGame{
 
 				//notifico a tutti i giocatori in quella partita l'accesso del nuovo giocatore
 				for(Giocatore g : gioco.getGiocatori()) {
-					_dht.peer().sendDirect(g.getPeerAddres()).object("giocatore" + _nickname + "è entrato in partita").start().awaitUninterruptibly();
+					_dht.peer().sendDirect(g.getPeerAddres()).object("giocatore: " + _nickname + "è entrato in partita: "+_game_name).start().awaitUninterruptibly();
 				}
 
 				return true;
