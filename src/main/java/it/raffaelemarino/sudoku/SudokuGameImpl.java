@@ -38,7 +38,7 @@ public class SudokuGameImpl implements SudokuGame{
 		if(fb.isSuccess()) {
 			peer.discover().peerAddress(fb.bootstrapTo().iterator().next()).start().awaitUninterruptibly();
 		}else {
-			throw new Exception("Error in master peer bootstrap. "+_master_peer);
+			throw new Exception("Error in master peer bootstrap. "+_id);
 		}
 
 		if (_listener!=null)
